@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>티토 DX-5060 | 디지털 진단</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 <style>
 :root {
   --teal: #1a6b6b;
@@ -23,10 +23,19 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: var(--warm-white);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #e8eded;
   color: var(--text-dark);
   min-height: 100vh;
+}
+.app-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--warm-white);
+  min-height: 100vh;
+  box-shadow: 0 0 40px rgba(0,0,0,0.12);
+  position: relative;
+  overflow-x: hidden;
 }
 /* HEADER */
 .header {
@@ -37,7 +46,7 @@ body {
   gap: 12px;
 }
 .logo {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #fff;
   font-size: 22px;
   font-weight: 700;
@@ -86,7 +95,7 @@ body {
   margin-bottom: 20px;
 }
 .hero h1 {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 28px;
   color: #fff;
   line-height: 1.45;
@@ -287,7 +296,7 @@ body {
   padding: 12px 14px;
   border: 1.5px solid #e0dbd5;
   border-radius: 10px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   color: var(--text-dark);
   background: #fff;
@@ -310,7 +319,7 @@ body {
   padding: 15px;
   border: none;
   border-radius: 12px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -370,7 +379,7 @@ body {
   margin-bottom: 10px;
 }
 .result-hero h2 {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 20px;
   margin-bottom: 8px;
   line-height: 1.4;
@@ -442,7 +451,7 @@ body {
   text-align: center;
 }
 .cta-section h3 {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #fff;
   font-size: 18px;
   margin-bottom: 8px;
@@ -460,7 +469,7 @@ body {
   padding: 14px;
   border: none;
   border-radius: 12px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -474,7 +483,7 @@ body {
   padding: 13px;
   border: 1.5px solid rgba(255,255,255,0.4);
   border-radius: 12px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -502,6 +511,9 @@ body {
 .consent-row label a { color: var(--teal); text-decoration: underline; }
 /* LOADING */
 .loading-screen {
+  max-width: 800px;
+  left: 50%;
+  transform: translateX(-50%);
   display: none;
   position: fixed;
   inset: 0;
@@ -525,6 +537,7 @@ body {
 .loading-screen small { color: rgba(255,255,255,0.6); font-size: 12px; }
 /* TOAST */
 .toast {
+  max-width: 760px;
   position: fixed;
   bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(80px);
@@ -572,6 +585,7 @@ body {
 </style>
 </head>
 <body>
+<div class="app-wrapper">
 
 <!-- HEADER -->
 <div class="header">
@@ -620,6 +634,28 @@ body {
     <div class="field">
       <label>성함 <span class="required">*</span></label>
       <input type="text" id="userName" placeholder="홍길동" />
+    </div>
+    <div class="field">
+      <label>상호명 / 브랜드명 <span class="required">*</span></label>
+      <input type="text" id="userBrand" placeholder="예: 티토 컨설팅, 홍길동 한의원" />
+    </div>
+    <div class="field">
+      <label>네이버 스마트플레이스 등록 여부</label>
+      <select id="userNaver">
+        <option value="">선택해 주세요</option>
+        <option>등록 안 함</option>
+        <option>등록했지만 관리 안 함</option>
+        <option>등록하고 관리 중</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>구글 지도에 내 사업장이 등록되어 있나요?</label>
+      <select id="userGoogle">
+        <option value="">선택해 주세요</option>
+        <option>등록 안 함</option>
+        <option>등록했지만 관리 안 함</option>
+        <option>등록하고 관리 중</option>
+      </select>
     </div>
     <div class="field">
       <label>업종 / 사업 분야 <span class="required">*</span></label>
@@ -845,24 +881,14 @@ body {
     </div>
     <div class="section-desc">연락처를 입력하시면 상세 진단 결과와 맞춤 솔루션을 보내드립니다</div>
     <div class="field">
-      <label>전화번호 <span class="required">*</span></label>
-      <input type="tel" id="userPhone" placeholder="010-0000-0000" />
+      <label>전화번호</label>
+      <input type="tel" id="userPhone" placeholder="010-0000-0000 (선택)" />
     </div>
     <div class="field">
       <label>이메일 <span class="required">*</span></label>
       <input type="email" id="userEmail" placeholder="example@email.com" />
     </div>
-    <div class="field">
-      <label>희망 연락 시간대</label>
-      <select id="userCallTime">
-        <option value="">선택 안 함</option>
-        <option>오전 9~11시</option>
-        <option>오전 11시~오후 1시</option>
-        <option>오후 1~3시</option>
-        <option>오후 3~6시</option>
-        <option>저녁 이후</option>
-      </select>
-    </div>
+
     <div class="notice">
       <strong>📌 수집 목적 안내</strong><br>
       입력하신 정보는 진단 결과 발송, 맞춤 서비스 안내, 티토 서비스 개선에만 활용되며 제3자에게 제공되지 않습니다.
@@ -915,7 +941,7 @@ body {
 <div class="screen" id="screen7">
   <div class="section-card" style="text-align:center; padding: 40px 24px;">
     <div class="success-icon">✅</div>
-    <h2 style="font-family:'Noto Serif KR',serif; font-size:20px; margin-bottom:10px;">상담 신청이 완료되었습니다!</h2>
+    <h2 style="font-family:'Pretendard',-apple-system,sans-serif;font-weight:700; font-size:20px; margin-bottom:10px;">상담 신청이 완료되었습니다!</h2>
     <p style="font-size:14px; color:var(--text-mid); line-height:1.7; margin-bottom:24px;">
       <strong id="finalName"></strong>님, 감사합니다.<br>
       영업일 기준 <strong>1~2일 내</strong>로 티토 전문가가 직접 연락드립니다.
@@ -1159,7 +1185,6 @@ function getSolutions(total, web, cont, brand, ops) {
 async function submitDiagnosis() {
   const phone = document.getElementById('userPhone').value.trim();
   const email = document.getElementById('userEmail').value.trim();
-  if (!phone) { showToast('전화번호를 입력해 주세요'); return; }
   if (!email || !email.includes('@')) { showToast('올바른 이메일을 입력해 주세요'); return; }
 
   const submitBtn = document.getElementById('submitBtn');
@@ -1187,11 +1212,14 @@ async function submitDiagnosis() {
   const payload = {
     timestamp:    new Date().toLocaleString('ko-KR'),
     name:         document.getElementById('userName').value.trim(),
+    brand:        document.getElementById('userBrand').value.trim(),
     phone:        phone,
     email:        email,
     biz:          document.getElementById('userBiz').value,
     bizAge:       document.getElementById('userAge').value,
-    callTime:     document.getElementById('userCallTime').value || '미선택',
+    naver:        document.getElementById('userNaver').value || '미선택',
+    google:       document.getElementById('userGoogle').value || '미선택',
+    
     action:       '진단완료',
     totalScore:   totalScore,
     webScore:     webScore,
@@ -1235,11 +1263,14 @@ function goConsult() {
   const payload = {
     timestamp: new Date().toLocaleString('ko-KR'),
     name:      name,
+    brand:     document.getElementById('userBrand').value.trim(),
     phone:     phone,
     email:     email,
     biz:       document.getElementById('userBiz').value,
     bizAge:    document.getElementById('userAge').value,
-    callTime:  document.getElementById('userCallTime').value || '미선택',
+    naver:     document.getElementById('userNaver').value || '미선택',
+    google:    document.getElementById('userGoogle').value || '미선택',
+    
     action:    '상담신청',           // ← n8n에서 이메일 요청 여부 분기에 사용
     totalScore: diagnosisResult.totalScore || 0,
     webScore:   diagnosisResult.webScore || 0,
@@ -1270,11 +1301,14 @@ function goEmail() {
   const payload = {
     timestamp: new Date().toLocaleString('ko-KR'),
     name:      name,
+    brand:     document.getElementById('userBrand').value.trim(),
     phone:     phone,
     email:     email,
     biz:       document.getElementById('userBiz').value,
     bizAge:    document.getElementById('userAge').value,
-    callTime:  document.getElementById('userCallTime').value || '미선택',
+    naver:     document.getElementById('userNaver').value || '미선택',
+    google:    document.getElementById('userGoogle').value || '미선택',
+    
     action:    '이메일요청',          // ← n8n 분기: true → 이메일 발송
     totalScore: diagnosisResult.totalScore || 0,
     webScore:   diagnosisResult.webScore || 0,
@@ -1295,5 +1329,6 @@ function goEmail() {
   showToast('📧 이메일로 상세 진단서를 발송했습니다!');
 }
 </script>
+</div><!-- /app-wrapper -->
 </body>
 </html>
