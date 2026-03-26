@@ -1086,6 +1086,63 @@ document.addEventListener('click', function(e) {
 });
 
 // ===================== SUBMIT =====================
+  // ===================== SUBMIT =====================
+const N8N_WEBHOOK_URL = "https://teetto.app.n8n.cloud/webhook/teetto-diagnosis";
+
+async function submitDiagnosis() {
+  const phone = document.getElementById('userPhone').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+  if (!phone) { showToast('전화번호를 입력해 주세요'); return; }
+  if (!email || !email.includes('@')) { showToast('올바른 이메일을 입력해 주세요'); return; }
+
+  document.getElementById('loadingScreen').classList.add('show');
+
+  // ── 답변 수집 ──
+  const answers = {};
+  for (let i = 1; i <= 12; i++) {
+    const sel = document.querySelector(`.options[data-q="q${i}"] .option.selected`);
+    answers[`q${i}`] = sel ? parseInt(sel.dataset.val) : 0;
+  }
+  const totalRaw = Object.values(answers).reduce((a, b) => a + b, 0);
+  const score = Math.round((totalRaw / 36) * 100);
+
+  // ── n8n으로 전송 ──
+  const payload = {
+    제출시각: new Date().toLocaleString('ko-KR'),
+    이름: document.getElementById('userName').value.trim(),
+    업종: document.getElementById('userBiz').value,
+    창업연차: document.getElementById('userAge').value,
+    전화번호: phone,
+    이메일: email,
+    희망연락시간: document.getElementById('userCallTime').value || '미선택',
+    총점: score,
+    q1: answers.q1, q2: answers.q2, q3: answers.q3,
+    q4: answers.q4, q5: answers.q5, q6: answers.q6,
+    q7: answers.q7, q8: answers.q8, q9: answers.q9,
+    q10: answers.q10, q11: answers.q11, q12: answers.q12,
+    자유입력: document.getElementById('userPain').value.trim()
+  };
+
+  try {
+    await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      mode: 'no-cors'
+    });
+    console.log('✅ n8n 전송 완료');
+  } catch (e) {
+    console.warn('⚠️ n8n 전송 오류:', e);
+  }
+
+  // ── 결과 화면 ──
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.remove('show');
+    calculateResult();
+    goScreen(6);
+    updateProgress(6);
+  }, 2800);
+}
 function submitDiagnosis() {
   const phone = document.getElementById('userPhone').value.trim();
   const email = document.getElementById('userEmail').value.trim();
