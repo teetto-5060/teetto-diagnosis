@@ -6,614 +6,569 @@
 <title>티토 DX-5060 | 디지털 진단</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --teal: #1a6b6b;
-    --teal-light: #2a9090;
-    --teal-pale: #e8f4f4;
-    --gold: #c8953a;
-    --gold-light: #f0c96a;
-    --warm-white: #faf8f5;
-    --warm-gray: #f2ede8;
-    --text-dark: #1e2228;
-    --text-mid: #4a5260;
-    --text-light: #8a919e;
-    --red: #e05050;
-    --green: #2e8b57;
-    --orange: #d4740a;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--warm-white);
-    color: var(--text-dark);
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  .header {
-    background: var(--teal);
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .logo {
-    font-family: 'Noto Serif KR', serif;
-    color: #fff;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-  .logo span { color: var(--gold-light); }
-  .header-sub {
-    color: rgba(255,255,255,0.65);
-    font-size: 13px;
-    margin-left: auto;
-  }
-
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, var(--teal) 0%, #0f4444 100%);
-    padding: 52px 24px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -60px;
-    width: 280px; height: 280px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; left: -40px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(200, 149, 58, 0.12);
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(200,149,58,0.2);
-    border: 1px solid var(--gold);
-    color: var(--gold-light);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 5px 14px;
-    border-radius: 20px;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-  }
-  .hero h1 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 28px;
-    color: #fff;
-    line-height: 1.45;
-    margin-bottom: 14px;
-    font-weight: 700;
-  }
-  .hero h1 em {
-    color: var(--gold-light);
-    font-style: normal;
-  }
-  .hero p {
-    color: rgba(255,255,255,0.75);
-    font-size: 15px;
-    line-height: 1.7;
-    max-width: 400px;
-    margin: 0 auto 24px;
-  }
-  .hero-time {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 30px;
-    padding: 8px 18px;
-    color: rgba(255,255,255,0.9);
-    font-size: 13px;
-  }
-  .hero-time .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--gold-light);
-    animation: pulse 1.5s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-
-  /* PROGRESS */
-  .progress-wrap {
-    background: #fff;
-    padding: 20px 24px 0;
-    border-bottom: 1px solid #ebe8e3;
-  }
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--text-light);
-    margin-bottom: 8px;
-  }
-  .progress-bar {
-    height: 4px;
-    background: var(--warm-gray);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--teal), var(--teal-light));
-    border-radius: 4px;
-    transition: width 0.5s ease;
-  }
-  .step-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding-bottom: 16px;
-  }
-  .step-dot {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700;
-    background: var(--warm-gray);
-    color: var(--text-light);
-    transition: all 0.3s;
-  }
-  .step-dot.active {
-    background: var(--teal);
-    color: #fff;
-    box-shadow: 0 0 0 3px rgba(26,107,107,0.2);
-  }
-  .step-dot.done {
-    background: var(--teal-pale);
-    color: var(--teal);
-  }
-
-  /* MAIN CONTENT */
-  .main { padding: 0 0 40px; }
-
-  .screen { display: none; }
-  .screen.active { display: block; }
-
-  /* SECTION */
-  .section-card {
-    background: #fff;
-    margin: 20px 16px 0;
-    border-radius: 16px;
-    padding: 24px 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  .section-card + .section-card { margin-top: 12px; }
-
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
-  .section-icon {
-    width: 36px; height: 36px;
-    border-radius: 10px;
-    background: var(--teal-pale);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .section-title h2 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-dark);
-  }
-  .section-desc {
-    font-size: 13px;
-    color: var(--text-light);
-    margin-bottom: 18px;
-    padding-left: 46px;
-  }
-
-  /* QUESTION */
-  .question { margin-bottom: 22px; }
-  .q-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 10px;
-    line-height: 1.5;
-  }
-  .q-label .q-num {
-    display: inline-block;
-    width: 20px; height: 20px;
-    background: var(--teal);
-    color: #fff;
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: 700;
-    text-align: center;
-    line-height: 20px;
-    margin-right: 6px;
-  }
-
-  .options { display: flex; flex-direction: column; gap: 8px; }
-  .option {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px 14px;
-    border: 1.5px solid #e8e4de;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #fff;
-  }
-  .option:hover { border-color: var(--teal-light); background: var(--teal-pale); }
-  .option.selected {
-    border-color: var(--teal);
-    background: var(--teal-pale);
-  }
-  .option input[type="radio"] { display: none; }
-  .option-radio {
-    width: 18px; height: 18px;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 1px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .option.selected .option-radio {
-    border-color: var(--teal);
-    background: var(--teal);
-  }
-  .option.selected .option-radio::after {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #fff;
-  }
-  .option-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
-  .option.selected .option-text { color: var(--teal); font-weight: 500; }
-
-  /* CHECKBOX options */
-  .option-check {
-    width: 18px; height: 18px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    flex-shrink: 0;
-    margin-top: 1px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .option.selected .option-check {
-    border-color: var(--teal);
-    background: var(--teal);
-  }
-  .option.selected .option-check::after {
-    content: '✓';
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-  }
-
-  /* INPUT FIELDS */
-  .field { margin-bottom: 16px; }
-  .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-mid);
-    margin-bottom: 6px;
-  }
-  .field label .required { color: var(--red); margin-left: 3px; }
-  .field input, .field select, .field textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid #e0dbd5;
-    border-radius: 10px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    color: var(--text-dark);
-    background: #fff;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(26,107,107,0.1);
-  }
-  .field textarea { resize: vertical; min-height: 80px; }
-
-  /* BUTTONS */
-  .btn-wrap {
-    padding: 20px 16px 0;
-    display: flex;
-    gap: 10px;
-  }
-  .btn {
-    flex: 1;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--teal), #0f5050);
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(26,107,107,0.3);
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(26,107,107,0.35); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-  .btn-secondary {
-    background: var(--warm-gray);
-    color: var(--text-mid);
-    flex: 0 0 80px;
-  }
-
-  /* NOTICE */
-  .notice {
-    margin: 12px 16px 0;
-    background: #fffbf0;
-    border: 1px solid #f0d98a;
-    border-radius: 10px;
-    padding: 12px 14px;
-    font-size: 12.5px;
-    color: #7a6020;
-    line-height: 1.6;
-  }
-  .notice strong { color: var(--gold); }
-
-  /* RESULT */
-  .result-hero {
-    background: linear-gradient(135deg, var(--teal) 0%, #0f4444 100%);
-    padding: 36px 20px 32px;
-    text-align: center;
-    color: #fff;
-  }
-  .result-score-ring {
-    width: 120px; height: 120px;
-    margin: 0 auto 16px;
-    position: relative;
-  }
-  .result-score-ring svg { transform: rotate(-90deg); }
-  .score-num {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-  .score-num .big { font-size: 34px; font-weight: 700; color: #fff; line-height: 1; }
-  .score-num .small { font-size: 13px; color: rgba(255,255,255,0.7); }
-  .result-level {
-    display: inline-block;
-    padding: 5px 18px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  .result-hero h2 {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 20px;
-    margin-bottom: 8px;
-    line-height: 1.4;
-  }
-  .result-hero p {
-    font-size: 13.5px;
-    color: rgba(255,255,255,0.75);
-    line-height: 1.7;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-
-  /* RESULT CARDS */
-  .result-area-card {
-    background: #fff;
-    margin: 12px 16px 0;
-    border-radius: 14px;
-    padding: 18px 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  }
-  .area-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .area-name {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-dark);
-  }
-  .area-score-badge {
-    font-size: 13px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-  }
-  .area-bar-bg {
-    height: 8px;
-    background: var(--warm-gray);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  .area-bar-fill {
-    height: 100%;
-    border-radius: 8px;
-    transition: width 1s ease;
-  }
-  .area-feedback {
-    font-size: 12.5px;
-    color: var(--text-light);
-    line-height: 1.6;
-  }
-
-  .score-high   { background: #e6f4eb; color: var(--green); }
-  .score-mid    { background: #fff3e0; color: var(--orange); }
-  .score-low    { background: #fdecea; color: var(--red); }
-  .bar-high  { background: linear-gradient(90deg, #2e8b57, #5cb87a); }
-  .bar-mid   { background: linear-gradient(90deg, #d4740a, #f0a840); }
-  .bar-low   { background: linear-gradient(90deg, #e05050, #f08080); }
-
-  /* CTA */
-  .cta-section {
-    background: linear-gradient(135deg, #0f4444, var(--teal));
-    margin: 20px 16px;
-    border-radius: 16px;
-    padding: 24px 20px;
-    text-align: center;
-  }
-  .cta-section h3 {
-    font-family: 'Noto Serif KR', serif;
-    color: #fff;
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  .cta-section p {
-    color: rgba(255,255,255,0.75);
-    font-size: 13px;
-    margin-bottom: 18px;
-    line-height: 1.6;
-  }
-  .cta-buttons { display: flex; flex-direction: column; gap: 10px; }
-  .btn-gold {
-    background: linear-gradient(135deg, var(--gold), #a8751a);
-    color: #fff;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(200,149,58,0.4);
-  }
-  .btn-gold:hover { transform: translateY(-1px); }
-  .btn-outline-white {
-    background: transparent;
-    color: #fff;
-    padding: 13px;
-    border: 1.5px solid rgba(255,255,255,0.4);
-    border-radius: 12px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
-
-  /* CONSENT */
-  .consent-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px 14px;
-    background: var(--warm-gray);
-    border-radius: 10px;
-    margin-top: 8px;
-    cursor: pointer;
-  }
-  .consent-row input { margin-top: 2px; accent-color: var(--teal); cursor: pointer; }
-  .consent-row label {
-    font-size: 12.5px;
-    color: var(--text-mid);
-    line-height: 1.6;
-    cursor: pointer;
-  }
-  .consent-row label a { color: var(--teal); text-decoration: underline; }
-
-  /* LOADING */
-  .loading-screen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15,40,40,0.85);
-    z-index: 100;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-  }
-  .loading-screen.show { display: flex; }
-  .spinner {
-    width: 48px; height: 48px;
-    border: 4px solid rgba(255,255,255,0.2);
-    border-top-color: var(--gold-light);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-screen p { color: #fff; font-size: 15px; font-weight: 500; }
-  .loading-screen small { color: rgba(255,255,255,0.6); font-size: 12px; }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--text-dark);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 13.5px;
-    transition: transform 0.3s;
-    z-index: 200;
-    white-space: nowrap;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* FINAL SUCCESS */
-  .success-icon {
-    width: 72px; height: 72px;
-    background: linear-gradient(135deg, var(--teal), var(--teal-light));
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-    margin: 0 auto 16px;
-    box-shadow: 0 6px 20px rgba(26,107,107,0.35);
-  }
-
-  .tip-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .tip-list li {
-    display: flex;
-    gap: 10px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-mid);
-  }
-  .tip-list li .tip-icon {
-    font-size: 16px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  @media (max-width: 420px) {
-    .hero h1 { font-size: 24px; }
-  }
+:root {
+  --teal: #1a6b6b;
+  --teal-light: #2a9090;
+  --teal-pale: #e8f4f4;
+  --gold: #c8953a;
+  --gold-light: #f0c96a;
+  --warm-white: #faf8f5;
+  --warm-gray: #f2ede8;
+  --text-dark: #1e2228;
+  --text-mid: #4a5260;
+  --text-light: #8a919e;
+  --red: #e05050;
+  --green: #2e8b57;
+  --orange: #d4740a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--warm-white);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+/* HEADER */
+.header {
+  background: var(--teal);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  font-family: 'Noto Serif KR', serif;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--gold-light); }
+.header-sub {
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  margin-left: auto;
+}
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--teal) 0%, #0f4444 100%);
+  padding: 52px 24px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -60px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(200, 149, 58, 0.12);
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(200,149,58,0.2);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 28px;
+  color: #fff;
+  line-height: 1.45;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.hero h1 em {
+  color: var(--gold-light);
+  font-style: normal;
+}
+.hero p {
+  color: rgba(255,255,255,0.75);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 400px;
+  margin: 0 auto 24px;
+}
+.hero-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 30px;
+  padding: 8px 18px;
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+}
+.hero-time .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+/* PROGRESS */
+.progress-wrap {
+  background: #fff;
+  padding: 20px 24px 0;
+  border-bottom: 1px solid #ebe8e3;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--warm-gray);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--teal-light));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+.step-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  background: var(--warm-gray);
+  color: var(--text-light);
+  transition: all 0.3s;
+}
+.step-dot.active {
+  background: var(--teal);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(26,107,107,0.2);
+}
+.step-dot.done {
+  background: var(--teal-pale);
+  color: var(--teal);
+}
+/* MAIN CONTENT */
+.main { padding: 0 0 40px; }
+.screen { display: none; }
+.screen.active { display: block; }
+/* SECTION */
+.section-card {
+  background: #fff;
+  margin: 20px 16px 0;
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.section-card + .section-card { margin-top: 12px; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.section-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--teal-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.section-title h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.section-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 18px;
+  padding-left: 46px;
+}
+/* QUESTION */
+.question { margin-bottom: 22px; }
+.q-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.q-label .q-num {
+  display: inline-block;
+  width: 20px; height: 20px;
+  background: var(--teal);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 20px;
+  margin-right: 6px;
+}
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid #e8e4de;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+}
+.option:hover { border-color: var(--teal-light); background: var(--teal-pale); }
+.option.selected {
+  border-color: var(--teal);
+  background: var(--teal-pale);
+}
+.option input[type="radio"] { display: none; }
+.option-radio {
+  width: 18px; height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.option.selected .option-radio {
+  border-color: var(--teal);
+  background: var(--teal);
+}
+.option.selected .option-radio::after {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.option-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
+.option.selected .option-text { color: var(--teal); font-weight: 500; }
+/* INPUT FIELDS */
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.field label .required { color: var(--red); margin-left: 3px; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e0dbd5;
+  border-radius: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: var(--text-dark);
+  background: #fff;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(26,107,107,0.1);
+}
+.field textarea { resize: vertical; min-height: 80px; }
+/* BUTTONS */
+.btn-wrap {
+  padding: 20px 16px 0;
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal), #0f5050);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(26,107,107,0.3);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(26,107,107,0.35); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-secondary {
+  background: var(--warm-gray);
+  color: var(--text-mid);
+  flex: 0 0 80px;
+}
+/* NOTICE */
+.notice {
+  margin: 12px 16px 0;
+  background: #fffbf0;
+  border: 1px solid #f0d98a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: #7a6020;
+  line-height: 1.6;
+}
+.notice strong { color: var(--gold); }
+/* RESULT */
+.result-hero {
+  background: linear-gradient(135deg, var(--teal) 0%, #0f4444 100%);
+  padding: 36px 20px 32px;
+  text-align: center;
+  color: #fff;
+}
+.result-score-ring {
+  width: 120px; height: 120px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+.result-score-ring svg { transform: rotate(-90deg); }
+.score-num {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.score-num .big { font-size: 34px; font-weight: 700; color: #fff; line-height: 1; }
+.score-num .small { font-size: 13px; color: rgba(255,255,255,0.7); }
+.result-level {
+  display: inline-block;
+  padding: 5px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.result-hero h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.result-hero p {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.7;
+  max-width: 360px;
+  margin: 0 auto;
+}
+/* RESULT CARDS */
+.result-area-card {
+  background: #fff;
+  margin: 12px 16px 0;
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.area-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.area-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.area-score-badge {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.area-bar-bg {
+  height: 8px;
+  background: var(--warm-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.area-bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 1s ease;
+}
+.area-feedback {
+  font-size: 12.5px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+.score-high { background: #e6f4eb; color: var(--green); }
+.score-mid { background: #fff3e0; color: var(--orange); }
+.score-low { background: #fdecea; color: var(--red); }
+.bar-high { background: linear-gradient(90deg, #2e8b57, #5cb87a); }
+.bar-mid { background: linear-gradient(90deg, #d4740a, #f0a840); }
+.bar-low { background: linear-gradient(90deg, #e05050, #f08080); }
+/* CTA */
+.cta-section {
+  background: linear-gradient(135deg, #0f4444, var(--teal));
+  margin: 20px 16px;
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.cta-section h3 {
+  font-family: 'Noto Serif KR', serif;
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.cta-section p {
+  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.cta-buttons { display: flex; flex-direction: column; gap: 10px; }
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #a8751a);
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(200,149,58,0.4);
+}
+.btn-gold:hover { transform: translateY(-1px); }
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  padding: 13px;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  border-radius: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+/* CONSENT */
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--warm-gray);
+  border-radius: 10px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+.consent-row input { margin-top: 2px; accent-color: var(--teal); cursor: pointer; }
+.consent-row label {
+  font-size: 12.5px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  cursor: pointer;
+}
+.consent-row label a { color: var(--teal); text-decoration: underline; }
+/* LOADING */
+.loading-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,40,40,0.85);
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.loading-screen.show { display: flex; }
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top-color: var(--gold-light);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-screen p { color: #fff; font-size: 15px; font-weight: 500; }
+.loading-screen small { color: rgba(255,255,255,0.6); font-size: 12px; }
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text-dark);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  transition: transform 0.3s;
+  z-index: 200;
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+/* FINAL SUCCESS */
+.success-icon {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 16px;
+  box-shadow: 0 6px 20px rgba(26,107,107,0.35);
+}
+.tip-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tip-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+.tip-list li .tip-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+@media (max-width: 420px) {
+  .hero h1 { font-size: 24px; }
+}
 </style>
 </head>
 <body>
@@ -645,369 +600,337 @@
 <!-- MAIN -->
 <div class="main">
 
-  <!-- SCREEN 0: 시작 -->
-  <div class="screen active" id="screen0">
-    <div class="hero">
-      <div class="hero-badge">무료 · 3분 완성</div>
-      <h1>내 사업의 디지털 현황,<br><em>지금 어디쯤</em> 와 있을까요?</h1>
-      <p>17개 진단 문항으로 홈페이지·콘텐츠·브랜딩·운영 4개 영역을 분석하고 맞춤 피드백을 드립니다.</p>
-      <div class="hero-time">
-        <div class="dot"></div>
-        약 3분 소요 · 전문가 분석 포함
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">👤</div>
-        <h2>기본 정보 입력</h2>
-      </div>
-      <div class="section-desc">진단 결과를 받아보실 정보를 입력해 주세요</div>
-
-      <div class="field">
-        <label>성함 <span class="required">*</span></label>
-        <input type="text" id="userName" placeholder="홍길동" />
-      </div>
-      <div class="field">
-        <label>업종 / 사업 분야 <span class="required">*</span></label>
-        <select id="userBiz">
-          <option value="">선택해 주세요</option>
-          <option>컨설팅 / 강의 / 코칭</option>
-          <option>제조 / 유통</option>
-          <option>요식업 / 카페</option>
-          <option>전문직 (의료·법무·세무 등)</option>
-          <option>IT / 디지털 서비스</option>
-          <option>교육 / 학원</option>
-          <option>뷰티 / 헬스 / 웰니스</option>
-          <option>부동산 / 인테리어</option>
-          <option>프리랜서 / 1인 창업</option>
-          <option>기타</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>창업한 지 얼마나 되셨나요? <span class="required">*</span></label>
-        <select id="userAge">
-          <option value="">선택해 주세요</option>
-          <option>6개월 미만</option>
-          <option>6개월~1년</option>
-          <option>1~3년</option>
-          <option>3~5년</option>
-          <option>5년 이상</option>
-        </select>
-      </div>
-
-      <div class="consent-row">
-        <input type="checkbox" id="consent1" />
-        <label for="consent1">개인정보 수집·이용에 동의합니다. (진단 결과 발송 및 서비스 개선 목적. <a href="#">개인정보처리방침</a>)</label>
-      </div>
-    </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-primary" onclick="goScreen(1)">진단 시작하기 →</button>
+<!-- SCREEN 0: 시작 -->
+<div class="screen active" id="screen0">
+  <div class="hero">
+    <div class="hero-badge">무료 · 3분 완성</div>
+    <h1>내 사업의 디지털 현황,<br><em>지금 어디쯤</em> 와 있을까요?</h1>
+    <p>17개 진단 문항으로 홈페이지·콘텐츠·브랜딩·운영 4개 영역을 분석하고 맞춤 피드백을 드립니다.</p>
+    <div class="hero-time">
+      <div class="dot"></div>
+      약 3분 소요 · 전문가 분석 포함
     </div>
   </div>
-
-  <!-- SCREEN 1: 홈페이지 진단 -->
-  <div class="screen" id="screen1">
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">🌐</div>
-        <h2>홈페이지 현황</h2>
-      </div>
-      <div class="section-desc">현재 온라인 거점이 어떤 상태인지 확인합니다</div>
-
-      <div class="question" id="q1">
-        <div class="q-label"><span class="q-num">1</span>현재 운영 중인 홈페이지(웹사이트)가 있나요?</div>
-        <div class="options" data-q="q1" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">없음 (아직 만들지 않음)</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">SNS(인스타·블로그)만 있음</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">홈페이지 있지만 오래돼서 거의 안 씀</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">홈페이지 있고, 정기적으로 업데이트함</span></label>
-        </div>
-      </div>
-
-      <div class="question" id="q2">
-        <div class="q-label"><span class="q-num">2</span>홈페이지에서 가장 어려운 점은 무엇인가요?</div>
-        <div class="options" data-q="q2" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">처음부터 어떻게 만드는지 모름</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">외주로 만들었는데 수정이 어려움</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">만들었는데 방문자가 없음</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">관리할 시간이 없음</span></label>
-        </div>
-      </div>
-
-      <div class="question" id="q3">
-        <div class="q-label"><span class="q-num">3</span>홈페이지에 회사 소개, 서비스, 연락처가 명확히 있나요?</div>
-        <div class="options" data-q="q3" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">없거나 모름</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">일부만 있음</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">대부분 있지만 오래된 정보</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">최신 정보로 잘 정리돼 있음</span></label>
-        </div>
-      </div>
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">👤</div>
+      <h2>기본 정보 입력</h2>
     </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-secondary" onclick="goScreen(0)">이전</button>
-      <button class="btn btn-primary" onclick="goScreen(2)">다음 →</button>
+    <div class="section-desc">진단 결과를 받아보실 정보를 입력해 주세요</div>
+    <div class="field">
+      <label>성함 <span class="required">*</span></label>
+      <input type="text" id="userName" placeholder="홍길동" />
+    </div>
+    <div class="field">
+      <label>업종 / 사업 분야 <span class="required">*</span></label>
+      <select id="userBiz">
+        <option value="">선택해 주세요</option>
+        <option>컨설팅 / 강의 / 코칭</option>
+        <option>제조 / 유통</option>
+        <option>요식업 / 카페</option>
+        <option>전문직 (의료·법무·세무 등)</option>
+        <option>IT / 디지털 서비스</option>
+        <option>교육 / 학원</option>
+        <option>뷰티 / 헬스 / 웰니스</option>
+        <option>부동산 / 인테리어</option>
+        <option>프리랜서 / 1인 창업</option>
+        <option>기타</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>창업한 지 얼마나 되셨나요? <span class="required">*</span></label>
+      <select id="userAge">
+        <option value="">선택해 주세요</option>
+        <option>6개월 미만</option>
+        <option>6개월~1년</option>
+        <option>1~3년</option>
+        <option>3~5년</option>
+        <option>5년 이상</option>
+      </select>
+    </div>
+    <div class="consent-row">
+      <input type="checkbox" id="consent1" />
+      <label for="consent1">개인정보 수집·이용에 동의합니다. (진단 결과 발송 및 서비스 개선 목적. <a href="#">개인정보처리방침</a>)</label>
     </div>
   </div>
+  <div class="btn-wrap">
+    <button class="btn btn-primary" onclick="goScreen(1)">진단 시작하기 →</button>
+  </div>
+</div>
 
-  <!-- SCREEN 2: 콘텐츠 진단 -->
-  <div class="screen" id="screen2">
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">✍️</div>
-        <h2>콘텐츠 & SEO 현황</h2>
-      </div>
-      <div class="section-desc">검색 노출과 콘텐츠 활동을 점검합니다</div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">4</span>블로그 또는 SNS에 얼마나 자주 글을 올리나요?</div>
-        <div class="options" data-q="q4" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">거의 안 올림 (월 1회 미만)</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">가끔 올림 (월 1~2회)</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">주 1회 정도 꾸준히</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">주 2회 이상, 체계적으로 운영</span></label>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">5</span>콘텐츠를 만들 때 가장 힘든 점은 무엇인가요?</div>
-        <div class="options" data-q="q5" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">뭘 써야 할지 주제를 모름</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">글쓰기 자체가 어렵고 시간이 너무 걸림</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">쓰긴 하는데 검색에 안 나옴</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">꽤 잘하고 있음</span></label>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">6</span>'내 이름' 또는 '내 서비스 명'을 검색하면 결과가 나오나요?</div>
-        <div class="options" data-q="q6" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">검색해 본 적 없음</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">검색해봤는데 내 정보가 안 나옴</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">일부 나오지만 정보가 부족함</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">잘 나오고 있음</span></label>
-        </div>
+<!-- SCREEN 1: 홈페이지 진단 -->
+<div class="screen" id="screen1">
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">🌐</div>
+      <h2>홈페이지 현황</h2>
+    </div>
+    <div class="section-desc">현재 온라인 거점이 어떤 상태인지 확인합니다</div>
+    <div class="question" id="q1">
+      <div class="q-label"><span class="q-num">1</span>현재 운영 중인 홈페이지(웹사이트)가 있나요?</div>
+      <div class="options" data-q="q1" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">없음 (아직 만들지 않음)</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">SNS(인스타·블로그)만 있음</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">홈페이지 있지만 오래돼서 거의 안 씀</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">홈페이지 있고, 정기적으로 업데이트함</span></label>
       </div>
     </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-secondary" onclick="goScreen(1)">이전</button>
-      <button class="btn btn-primary" onclick="goScreen(3)">다음 →</button>
+    <div class="question" id="q2">
+      <div class="q-label"><span class="q-num">2</span>홈페이지에서 가장 어려운 점은 무엇인가요?</div>
+      <div class="options" data-q="q2" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">처음부터 어떻게 만드는지 모름</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">외주로 만들었는데 수정이 어려움</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">만들었는데 방문자가 없음</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">관리할 시간이 없음</span></label>
+      </div>
+    </div>
+    <div class="question" id="q3">
+      <div class="q-label"><span class="q-num">3</span>홈페이지에 회사 소개, 서비스, 연락처가 명확히 있나요?</div>
+      <div class="options" data-q="q3" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">없거나 모름</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">일부만 있음</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">대부분 있지만 오래된 정보</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">최신 정보로 잘 정리돼 있음</span></label>
+      </div>
     </div>
   </div>
+  <div class="btn-wrap">
+    <button class="btn btn-secondary" onclick="goScreen(0)">이전</button>
+    <button class="btn btn-primary" onclick="goScreen(2)">다음 →</button>
+  </div>
+</div>
 
-  <!-- SCREEN 3: 브랜딩 & 운영 -->
-  <div class="screen" id="screen3">
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">🏷️</div>
-        <h2>디지털 브랜딩 현황</h2>
-      </div>
-      <div class="section-desc">온라인에서 내 사업이 얼마나 잘 보이는지 확인합니다</div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">7</span>온라인에서 내 사업·경력의 전문성이 잘 드러나고 있나요?</div>
-        <div class="options" data-q="q7" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">전혀 안 드러남</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">아는 분들만 알고 있음</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">SNS에 약간 있지만 부족함</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">홈페이지·블로그·SNS에 잘 표현됨</span></label>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">8</span>고객이 온라인으로 나를 처음 알게 되는 경로는?</div>
-        <div class="options" data-q="q8" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">주로 지인 소개 (온라인 경로 없음)</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">카카오톡·문자 공유</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">인스타그램·유튜브 등 SNS</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">구글·네이버 검색 + 홈페이지</span></label>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">9</span>온라인으로 문의·예약·구매가 들어오나요?</div>
-        <div class="options" data-q="q9" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">온라인 문의 구조 자체가 없음</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">카카오 오픈채팅 정도만 있음</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">간혹 들어오지만 불규칙함</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">정기적으로 온라인 문의·전환 발생</span></label>
-        </div>
+<!-- SCREEN 2: 콘텐츠 진단 -->
+<div class="screen" id="screen2">
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">✍️</div>
+      <h2>콘텐츠 & SEO 현황</h2>
+    </div>
+    <div class="section-desc">검색 노출과 콘텐츠 활동을 점검합니다</div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">4</span>블로그 또는 SNS에 얼마나 자주 글을 올리나요?</div>
+      <div class="options" data-q="q4" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">거의 안 올림 (월 1회 미만)</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">가끔 올림 (월 1~2회)</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">주 1회 정도 꾸준히</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">주 2회 이상, 체계적으로 운영</span></label>
       </div>
     </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-secondary" onclick="goScreen(2)">이전</button>
-      <button class="btn btn-primary" onclick="goScreen(4)">다음 →</button>
+    <div class="question">
+      <div class="q-label"><span class="q-num">5</span>콘텐츠를 만들 때 가장 힘든 점은 무엇인가요?</div>
+      <div class="options" data-q="q5" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">뭘 써야 할지 주제를 모름</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">글쓰기 자체가 어렵고 시간이 너무 걸림</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">쓰긴 하는데 검색에 안 나옴</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">꽤 잘하고 있음</span></label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">6</span>'내 이름' 또는 '내 서비스 명'을 검색하면 결과가 나오나요?</div>
+      <div class="options" data-q="q6" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">검색해 본 적 없음</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">검색해봤는데 내 정보가 안 나옴</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">일부 나오지만 정보가 부족함</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">잘 나오고 있음</span></label>
+      </div>
     </div>
   </div>
+  <div class="btn-wrap">
+    <button class="btn btn-secondary" onclick="goScreen(1)">이전</button>
+    <button class="btn btn-primary" onclick="goScreen(3)">다음 →</button>
+  </div>
+</div>
 
-  <!-- SCREEN 4: 운영 & AI 활용 -->
-  <div class="screen" id="screen4">
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">⚙️</div>
-        <h2>디지털 운영 & AI 활용</h2>
-      </div>
-      <div class="section-desc">현재 디지털 도구 활용도와 운영 역량을 점검합니다</div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">10</span>AI 도구(ChatGPT, 클로드, 뤼튼 등)를 업무에 활용하고 있나요?</div>
-        <div class="options" data-q="q10" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">들어는 봤지만 써본 적 없음</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">써봤는데 어떻게 활용할지 모름</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">가끔 글쓰기나 번역에 씀</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">콘텐츠·업무에 적극 활용 중</span></label>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">11</span>홈페이지나 블로그 데이터(방문자 수 등)를 확인하고 있나요?</div>
-        <div class="options" data-q="q11" data-type="radio">
-          <label class="option" data-val="0"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">확인 방법을 모름</span></label>
-          <label class="option" data-val="1"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">알고는 있는데 안 보게 됨</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">가끔 확인함</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">정기적으로 보고 운영에 반영함</span></label>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label"><span class="q-num">12</span>디지털 운영에 월 얼마 정도 투자할 의향이 있으신가요?</div>
-        <div class="options" data-q="q12" data-type="radio">
-          <label class="option" data-val="1"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">5만원 미만</span></label>
-          <label class="option" data-val="2"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">5~15만원</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">15~30만원</span></label>
-          <label class="option" data-val="3"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">30만원 이상 (성과가 나온다면)</span></label>
-        </div>
+<!-- SCREEN 3: 브랜딩 -->
+<div class="screen" id="screen3">
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">🏷️</div>
+      <h2>디지털 브랜딩 현황</h2>
+    </div>
+    <div class="section-desc">온라인에서 내 사업이 얼마나 잘 보이는지 확인합니다</div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">7</span>온라인에서 내 사업·경력의 전문성이 잘 드러나고 있나요?</div>
+      <div class="options" data-q="q7" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">전혀 안 드러남</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">아는 분들만 알고 있음</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">SNS에 약간 있지만 부족함</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">홈페이지·블로그·SNS에 잘 표현됨</span></label>
       </div>
     </div>
-
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">💬</div>
-        <h2>자유 입력</h2>
-      </div>
-      <div class="section-desc">현재 가장 답답한 점을 짧게 적어주세요 (선택)</div>
-      <div class="field">
-        <textarea id="userPain" placeholder="예: 홈페이지를 만들었는데 아무도 안 들어와요. 글쓰기가 너무 힘들어요. 외주비가 너무 비싸요..."></textarea>
+    <div class="question">
+      <div class="q-label"><span class="q-num">8</span>고객이 온라인으로 나를 처음 알게 되는 경로는?</div>
+      <div class="options" data-q="q8" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">주로 지인 소개 (온라인 경로 없음)</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">카카오톡·문자 공유</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">인스타그램·유튜브 등 SNS</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">구글·네이버 검색 + 홈페이지</span></label>
       </div>
     </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-secondary" onclick="goScreen(3)">이전</button>
-      <button class="btn btn-primary" onclick="goScreen(5)">다음 →</button>
+    <div class="question">
+      <div class="q-label"><span class="q-num">9</span>온라인으로 문의·예약·구매가 들어오나요?</div>
+      <div class="options" data-q="q9" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">온라인 문의 구조 자체가 없음</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">카카오 오픈채팅 정도만 있음</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">간혹 들어오지만 불규칙함</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">정기적으로 온라인 문의·전환 발생</span></label>
+      </div>
     </div>
   </div>
+  <div class="btn-wrap">
+    <button class="btn btn-secondary" onclick="goScreen(2)">이전</button>
+    <button class="btn btn-primary" onclick="goScreen(4)">다음 →</button>
+  </div>
+</div>
 
-  <!-- SCREEN 5: 연락처 입력 + 결과 받기 -->
-  <div class="screen" id="screen5">
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">📨</div>
-        <h2>진단 결과 받기</h2>
-      </div>
-      <div class="section-desc">연락처를 입력하시면 상세 진단 결과와 맞춤 솔루션을 보내드립니다</div>
-
-      <div class="field">
-        <label>전화번호 <span class="required">*</span></label>
-        <input type="tel" id="userPhone" placeholder="010-0000-0000" />
-      </div>
-      <div class="field">
-        <label>이메일 <span class="required">*</span></label>
-        <input type="email" id="userEmail" placeholder="example@email.com" />
-      </div>
-      <div class="field">
-        <label>희망 연락 시간대</label>
-        <select id="userCallTime">
-          <option value="">선택 안 함</option>
-          <option>오전 9~11시</option>
-          <option>오전 11시~오후 1시</option>
-          <option>오후 1~3시</option>
-          <option>오후 3~6시</option>
-          <option>저녁 이후</option>
-        </select>
-      </div>
-
-      <div class="notice">
-        <strong>📌 수집 목적 안내</strong><br>
-        입력하신 정보는 진단 결과 발송, 맞춤 서비스 안내, 티토 서비스 개선에만 활용되며 제3자에게 제공되지 않습니다.
+<!-- SCREEN 4: 운영 & AI -->
+<div class="screen" id="screen4">
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">⚙️</div>
+      <h2>디지털 운영 & AI 활용</h2>
+    </div>
+    <div class="section-desc">현재 디지털 도구 활용도와 운영 역량을 점검합니다</div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">10</span>AI 도구(ChatGPT, 클로드, 뤼튼 등)를 업무에 활용하고 있나요?</div>
+      <div class="options" data-q="q10" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">들어는 봤지만 써본 적 없음</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">써봤는데 어떻게 활용할지 모름</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">가끔 글쓰기나 번역에 씀</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">콘텐츠·업무에 적극 활용 중</span></label>
       </div>
     </div>
-
-    <div class="btn-wrap">
-      <button class="btn btn-secondary" onclick="goScreen(4)">이전</button>
-      <button class="btn btn-primary" id="submitBtn" onclick="submitDiagnosis()">진단 결과 보기 🎯</button>
+    <div class="question">
+      <div class="q-label"><span class="q-num">11</span>홈페이지나 블로그 데이터(방문자 수 등)를 확인하고 있나요?</div>
+      <div class="options" data-q="q11" data-type="radio">
+        <label class="option" data-val="0"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">확인 방법을 모름</span></label>
+        <label class="option" data-val="1"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">알고는 있는데 안 보게 됨</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">가끔 확인함</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">정기적으로 보고 운영에 반영함</span></label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">12</span>디지털 운영에 월 얼마 정도 투자할 의향이 있으신가요?</div>
+      <div class="options" data-q="q12" data-type="radio">
+        <label class="option" data-val="1"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">5만원 미만</span></label>
+        <label class="option" data-val="2"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">5~15만원</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">15~30만원</span></label>
+        <label class="option" data-val="3"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">30만원 이상 (성과가 나온다면)</span></label>
+      </div>
     </div>
   </div>
-
-  <!-- SCREEN 6: 결과 화면 -->
-  <div class="screen" id="screen6">
-    <div class="result-hero">
-      <div class="result-score-ring">
-        <svg viewBox="0 0 120 120" width="120" height="120">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="10"/>
-          <circle id="scoreCircle" cx="60" cy="60" r="50" fill="none" stroke="#f0c96a" stroke-width="10"
-            stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
-            style="transition: stroke-dashoffset 1.5s ease;"/>
-        </svg>
-        <div class="score-num">
-          <div class="big" id="scoreDisplay">0</div>
-          <div class="small">/ 100</div>
-        </div>
-      </div>
-      <div class="result-level" id="resultLevel">분석 중...</div>
-      <h2 id="resultTitle">진단 결과</h2>
-      <p id="resultSummary"></p>
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">💬</div>
+      <h2>자유 입력</h2>
     </div>
-
-    <!-- 영역별 점수 -->
-    <div id="areaCards"></div>
-
-    <!-- CTA -->
-    <div class="cta-section">
-      <h3>지금 바로 디지털 전환을 시작하세요</h3>
-      <p>티토 DX-5060 전문 컨설턴트가 맞춤 운영 구조를 함께 설계해 드립니다.</p>
-      <div class="cta-buttons">
-        <button class="btn-gold" onclick="goConsult()">📞 무료 상담 신청하기</button>
-        <button class="btn-outline-white" onclick="goEmail()">📧 이메일로 상세 진단서 받기</button>
-      </div>
-    </div>
-
-    <!-- 추천 솔루션 -->
-    <div class="section-card">
-      <div class="section-title">
-        <div class="section-icon">🎯</div>
-        <h2>나에게 맞는 솔루션</h2>
-      </div>
-      <div id="solutionList" style="margin-top:12px;"></div>
+    <div class="section-desc">현재 가장 답답한 점을 짧게 적어주세요 (선택)</div>
+    <div class="field">
+      <textarea id="userPain" placeholder="예: 홈페이지를 만들었는데 아무도 안 들어와요. 글쓰기가 너무 힘들어요..."></textarea>
     </div>
   </div>
+  <div class="btn-wrap">
+    <button class="btn btn-secondary" onclick="goScreen(3)">이전</button>
+    <button class="btn btn-primary" onclick="goScreen(5)">다음 →</button>
+  </div>
+</div>
 
-  <!-- SCREEN 7: 상담 신청 완료 -->
-  <div class="screen" id="screen7">
-    <div class="section-card" style="text-align:center; padding: 40px 24px;">
-      <div class="success-icon">✅</div>
-      <h2 style="font-family:'Noto Serif KR',serif; font-size:20px; margin-bottom:10px;">상담 신청이 완료되었습니다!</h2>
-      <p style="font-size:14px; color:var(--text-mid); line-height:1.7; margin-bottom:24px;">
-        <strong id="finalName"></strong>님, 감사합니다.<br>
-        영업일 기준 <strong>1~2일 내</strong>로 티토 전문가가 직접 연락드립니다.
-      </p>
-      <div style="background:var(--teal-pale); border-radius:12px; padding:18px; text-align:left;">
-        <div style="font-size:13px; font-weight:700; color:var(--teal); margin-bottom:12px;">상담 전 이것만 준비해 두세요 💡</div>
-        <ul class="tip-list">
-          <li><span class="tip-icon">🔗</span>현재 운영 중인 홈페이지 또는 SNS 주소</li>
-          <li><span class="tip-icon">📝</span>사업 소개 자료 (간략한 소개 문장도 OK)</li>
-          <li><span class="tip-icon">💭</span>디지털 운영에서 가장 불편한 점 1가지</li>
-        </ul>
-      </div>
+<!-- SCREEN 5: 연락처 입력 -->
+<div class="screen" id="screen5">
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">📨</div>
+      <h2>진단 결과 받기</h2>
     </div>
-    <div class="btn-wrap">
-      <button class="btn btn-primary" onclick="goScreen(6)">← 진단 결과 다시 보기</button>
+    <div class="section-desc">연락처를 입력하시면 상세 진단 결과와 맞춤 솔루션을 보내드립니다</div>
+    <div class="field">
+      <label>전화번호 <span class="required">*</span></label>
+      <input type="tel" id="userPhone" placeholder="010-0000-0000" />
+    </div>
+    <div class="field">
+      <label>이메일 <span class="required">*</span></label>
+      <input type="email" id="userEmail" placeholder="example@email.com" />
+    </div>
+    <div class="field">
+      <label>희망 연락 시간대</label>
+      <select id="userCallTime">
+        <option value="">선택 안 함</option>
+        <option>오전 9~11시</option>
+        <option>오전 11시~오후 1시</option>
+        <option>오후 1~3시</option>
+        <option>오후 3~6시</option>
+        <option>저녁 이후</option>
+      </select>
+    </div>
+    <div class="notice">
+      <strong>📌 수집 목적 안내</strong><br>
+      입력하신 정보는 진단 결과 발송, 맞춤 서비스 안내, 티토 서비스 개선에만 활용되며 제3자에게 제공되지 않습니다.
     </div>
   </div>
+  <div class="btn-wrap">
+    <button class="btn btn-secondary" onclick="goScreen(4)">이전</button>
+    <button class="btn btn-primary" id="submitBtn" onclick="submitDiagnosis()">진단 결과 보기 🎯</button>
+  </div>
+</div>
+
+<!-- SCREEN 6: 결과 화면 -->
+<div class="screen" id="screen6">
+  <div class="result-hero">
+    <div class="result-score-ring">
+      <svg viewBox="0 0 120 120" width="120" height="120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="10"/>
+        <circle id="scoreCircle" cx="60" cy="60" r="50" fill="none" stroke="#f0c96a" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+          style="transition: stroke-dashoffset 1.5s ease;"/>
+      </svg>
+      <div class="score-num">
+        <div class="big" id="scoreDisplay">0</div>
+        <div class="small">/ 100</div>
+      </div>
+    </div>
+    <div class="result-level" id="resultLevel">분석 중...</div>
+    <h2 id="resultTitle">진단 결과</h2>
+    <p id="resultSummary"></p>
+  </div>
+  <div id="areaCards"></div>
+  <div class="cta-section">
+    <h3>지금 바로 디지털 전환을 시작하세요</h3>
+    <p>티토 DX-5060 전문 컨설턴트가 맞춤 운영 구조를 함께 설계해 드립니다.</p>
+    <div class="cta-buttons">
+      <button class="btn-gold" onclick="goConsult()">📞 무료 상담 신청하기</button>
+      <button class="btn-outline-white" onclick="goEmail()">📧 이메일로 상세 진단서 받기</button>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">🎯</div>
+      <h2>나에게 맞는 솔루션</h2>
+    </div>
+    <div id="solutionList" style="margin-top:12px;"></div>
+  </div>
+</div>
+
+<!-- SCREEN 7: 상담 신청 완료 -->
+<div class="screen" id="screen7">
+  <div class="section-card" style="text-align:center; padding: 40px 24px;">
+    <div class="success-icon">✅</div>
+    <h2 style="font-family:'Noto Serif KR',serif; font-size:20px; margin-bottom:10px;">상담 신청이 완료되었습니다!</h2>
+    <p style="font-size:14px; color:var(--text-mid); line-height:1.7; margin-bottom:24px;">
+      <strong id="finalName"></strong>님, 감사합니다.<br>
+      영업일 기준 <strong>1~2일 내</strong>로 티토 전문가가 직접 연락드립니다.
+    </p>
+    <div style="background:var(--teal-pale); border-radius:12px; padding:18px; text-align:left;">
+      <div style="font-size:13px; font-weight:700; color:var(--teal); margin-bottom:12px;">상담 전 이것만 준비해 두세요 💡</div>
+      <ul class="tip-list">
+        <li><span class="tip-icon">🔗</span>현재 운영 중인 홈페이지 또는 SNS 주소</li>
+        <li><span class="tip-icon">📝</span>사업 소개 자료 (간략한 소개 문장도 OK)</li>
+        <li><span class="tip-icon">💭</span>디지털 운영에서 가장 불편한 점 1가지</li>
+      </ul>
+    </div>
+    <button class="btn btn-primary" style="margin-top:24px; width:100%;" onclick="goScreen(6)">← 진단 결과 다시 보기</button>
+  </div>
+</div>
 
 </div><!-- /main -->
 
@@ -1022,445 +945,51 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// ===================== CONFIG =====================
+const N8N_WEBHOOK_URL = "https://teetto.app.n8n.cloud/webhook/teetto-diagnosis";
+
 // ===================== STATE =====================
-const answers = {};
-let totalScore = 0;
-let areaScores = {};
+let currentScreen = 0;
+let diagnosisResult = {};
 
 // ===================== NAVIGATION =====================
 function goScreen(n) {
-  // Validation
-  if (n === 1) {
-    if (!document.getElementById('userName').value.trim()) { showToast('성함을 입력해 주세요'); return; }
-    if (!document.getElementById('userBiz').value) { showToast('업종을 선택해 주세요'); return; }
-    if (!document.getElementById('userAge').value) { showToast('창업 기간을 선택해 주세요'); return; }
-    if (!document.getElementById('consent1').checked) { showToast('개인정보 수집에 동의해 주세요'); return; }
-  }
-
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + currentScreen).classList.remove('active');
   document.getElementById('screen' + n).classList.add('active');
-
+  currentScreen = n;
   updateProgress(n);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo(0, 0);
 }
 
-function updateProgress(step) {
-  const labels = ['시작', '홈페이지', '콘텐츠', '브랜딩', '운영', '연락처'];
-  const pct = Math.round((step / 5) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('stepLabel').textContent = labels[step] || '결과';
-  document.getElementById('stepCount').textContent = Math.min(step, 5) + ' / 5';
+function updateProgress(n) {
+  const labels = ['진단 시작', '홈페이지 현황', '콘텐츠 & SEO', '브랜딩 현황', '운영 & AI', '연락처 입력'];
+  const stepLabel = document.getElementById('stepLabel');
+  const stepCount = document.getElementById('stepCount');
+  const progressFill = document.getElementById('progressFill');
+
+  const step = Math.min(n, 5);
+  if (stepLabel) stepLabel.textContent = labels[step] || '완료';
+  if (stepCount) stepCount.textContent = step + ' / 5';
+  if (progressFill) progressFill.style.width = (step / 5 * 100) + '%';
 
   for (let i = 0; i < 5; i++) {
     const dot = document.getElementById('dot' + i);
+    if (!dot) continue;
     dot.classList.remove('active', 'done');
-    if (i + 1 < step) dot.classList.add('done'), dot.textContent = '✓';
-    else if (i + 1 === step) dot.classList.add('active'), dot.textContent = i + 1;
-    else dot.textContent = i + 1;
+    if (i + 1 === step) dot.classList.add('active');
+    else if (i + 1 < step) dot.classList.add('done');
   }
 }
 
-// ===================== OPTION SELECTION =====================
+// ===================== OPTIONS =====================
 document.addEventListener('click', function(e) {
-  const opt = e.target.closest('.option');
-  if (!opt) return;
-  const group = opt.closest('.options');
+  const option = e.target.closest('.option');
+  if (!option) return;
+  const group = option.closest('.options');
   if (!group) return;
-  const type = group.dataset.type;
-  const q = group.dataset.q;
-
-  if (type === 'radio') {
-    group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-    opt.classList.add('selected');
-    answers[q] = parseInt(opt.dataset.val);
-  } else {
-    opt.classList.toggle('selected');
-    if (!answers[q]) answers[q] = [];
-    const val = parseInt(opt.dataset.val);
-    if (opt.classList.contains('selected')) {
-      if (!answers[q].includes(val)) answers[q].push(val);
-    } else {
-      answers[q] = answers[q].filter(v => v !== val);
-    }
-  }
+  group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  option.classList.add('selected');
 });
-
-// ===================== SUBMIT =====================
-  // ===================== SUBMIT =====================
-const N8N_WEBHOOK_URL = "https://teetto.app.n8n.cloud/webhook/teetto-diagnosis";
-
-async function submitDiagnosis() {
-  const phone = document.getElementById('userPhone').value.trim();
-  const email = document.getElementById('userEmail').value.trim();
-  if (!phone) { showToast('전화번호를 입력해 주세요'); return; }
-  if (!email || !email.includes('@')) { showToast('올바른 이메일을 입력해 주세요'); return; }
-
-  document.getElementById('loadingScreen').classList.add('show');
-
-  // ── 답변 수집 ──
-  const answers = {};
-  for (let i = 1; i <= 12; i++) {
-    const sel = document.querySelector(`.options[data-q="q${i}"] .option.selected`);
-    answers[`q${i}`] = sel ? parseInt(sel.dataset.val) : 0;
-  }
-  const totalRaw = Object.values(answers).reduce((a, b) => a + b, 0);
-  const score = Math.round((totalRaw / 36) * 100);
-
-  // ── n8n으로 전송 ──
-  const payload = {
-    제출시각: new Date().toLocaleString('ko-KR'),
-    이름: document.getElementById('userName').value.trim(),
-    업종: document.getElementById('userBiz').value,
-    창업연차: document.getElementById('userAge').value,
-    전화번호: phone,
-    이메일: email,
-    희망연락시간: document.getElementById('userCallTime').value || '미선택',
-    총점: score,
-    q1: answers.q1, q2: answers.q2, q3: answers.q3,
-    q4: answers.q4, q5: answers.q5, q6: answers.q6,
-    q7: answers.q7, q8: answers.q8, q9: answers.q9,
-    q10: answers.q10, q11: answers.q11, q12: answers.q12,
-    자유입력: document.getElementById('userPain').value.trim()
-  };
-
-  try {
-    await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      mode: 'no-cors'
-    });
-    console.log('✅ n8n 전송 완료');
-  } catch (e) {
-    console.warn('⚠️ n8n 전송 오류:', e);
-  }
-
-  // ── 결과 화면 ──
-  setTimeout(() => {
-    document.getElementById('loadingScreen').classList.remove('show');
-    calculateResult();
-    goScreen(6);
-    updateProgress(6);
-  }, 2800);
-}
-function submitDiagnosis() {
-  const phone = document.getElementById('userPhone').value.trim();
-  const email = document.getElementById('userEmail').value.trim();
-  if (!phone) { showToast('전화번호를 입력해 주세요'); return; }
-  if (!email || !email.includes('@')) { showToast('올바른 이메일을 입력해 주세요'); return; }
-
-  document.getElementById('loadingScreen').classList.add('show');
-
-  setTimeout(() => {
-    document.getElementById('loadingScreen').classList.remove('show');
-    calculateResult();
-    goScreen(6);
-    updateProgress(6);
-  }, 2800);
-}
-
-// ===================== CALCULATE =====================
-function calculateResult() {
-  const web = ((answers.q1 || 0) + (answers.q2 || 0) + (answers.q3 || 0));
-  const content = ((answers.q4 || 0) + (answers.q5 || 0) + (answers.q6 || 0));
-  const brand = ((answers.q7 || 0) + (answers.q8 || 0) + (answers.q9 || 0));
-  const ops = ((answers.q10 || 0) + (answers.q11 || 0) + (answers.q12 || 0));
-
-  const maxPer = 9;
-  areaScores = {
-    web: Math.round((web / maxPer) * 100),
-    content: Math.round((content / maxPer) * 100),
-    brand: Math.round((brand / maxPer) * 100),
-    ops: Math.round((ops / maxPer) * 100)
-  };
-  totalScore = Math.round((web + content + brand + ops) / (maxPer * 4) * 100);
-
-  renderResult();
-}
-
-function renderResult() {
-  // Score animation
-  const circle = document.getElementById('scoreCircle');
-  const circumference = 314;
-  setTimeout(() => {
-    circle.style.strokeDashoffset = circumference - (circumference * totalScore / 100);
-  }, 100);
-
-  // Animate number
-  let cur = 0;
-  const el = document.getElementById('scoreDisplay');
-  const timer = setInterval(() => {
-    cur += 2;
-    if (cur >= totalScore) { cur = totalScore; clearInterval(timer); }
-    el.textContent = cur;
-  }, 30);
-
-  // Level
-  let level, levelClass, title, summary;
-  if (totalScore >= 70) {
-    level = '🏆 디지털 준비 완료'; levelClass = 'score-high';
-    title = '탄탄한 기반 위에 자동화만 더하면 됩니다!';
-    summary = '디지털 운영 기초는 잘 갖춰져 있습니다. 이제 AI 자동화와 KPI 기반 운영으로 한 단계 도약할 차례입니다.';
-  } else if (totalScore >= 40) {
-    level = '⚡ 디지털 성장 단계'; levelClass = 'score-mid';
-    title = '조금만 더 체계화하면 성과가 나옵니다!';
-    summary = '시작은 하셨지만 운영 구조가 아직 미흡합니다. 홈페이지·콘텐츠·자동화를 연결하면 매출로 이어집니다.';
-  } else {
-    level = '🌱 디지털 전환 필요'; levelClass = 'score-low';
-    title = '지금 시작해도 늦지 않았습니다!';
-    summary = '디지털 운영 기반이 아직 갖춰지지 않은 상태입니다. 경험과 전문성은 충분하니, 디지털 구조만 만들어 드리겠습니다.';
-  }
-
-  document.getElementById('resultLevel').textContent = level;
-  document.getElementById('resultLevel').className = 'result-level ' + levelClass;
-  document.getElementById('resultTitle').textContent = title;
-  document.getElementById('resultSummary').textContent = summary;
-
-  // Area cards
-  const areas = [
-    { key: 'web', icon: '🌐', name: '홈페이지', fb: getAreaFeedback('web', areaScores.web) },
-    { key: 'content', icon: '✍️', name: '콘텐츠 & SEO', fb: getAreaFeedback('content', areaScores.content) },
-    { key: 'brand', icon: '🏷️', name: '디지털 브랜딩', fb: getAreaFeedback('brand', areaScores.brand) },
-    { key: 'ops', icon: '⚙️', name: '운영 & AI 활용', fb: getAreaFeedback('ops', areaScores.ops) }
-  ];
-
-  const container = document.getElementById('areaCards');
-  container.innerHTML = '';
-  areas.forEach(a => {
-    const s = areaScores[a.key];
-    const cls = s >= 67 ? 'high' : s >= 34 ? 'mid' : 'low';
-    const div = document.createElement('div');
-    div.className = 'result-area-card';
-    div.innerHTML = `
-      <div class="area-header">
-        <div class="area-name">${a.icon} ${a.name}</div>
-        <div class="area-score-badge score-${cls}">${s}점</div>
-      </div>
-      <div class="area-bar-bg">
-        <div class="area-bar-fill bar-${cls}" style="width:0%" id="bar_${a.key}"></div>
-      </div>
-      <div class="area-feedback">${a.fb}</div>
-    `;
-    container.appendChild(div);
-    setTimeout(() => {
-      document.getElementById('bar_' + a.key).style.width = s + '%';
-    }, 200);
-  });
-
-  // Solutions
-  renderSolutions();
-}
-
-function getAreaFeedback(area, score) {
-  const map = {
-    web: {
-      low: '홈페이지가 없거나 방치된 상태입니다. 20분 만에 1차 홈페이지를 완성하는 것부터 시작하세요.',
-      mid: '홈페이지는 있지만 스스로 수정·관리하기 어려운 구조입니다. 모듈형 구조로 바꾸면 쉬워집니다.',
-      high: '홈페이지 기반이 좋습니다. SEO 연동과 자동 업데이트 구조를 추가해 보세요.'
-    },
-    content: {
-      low: 'SEO 콘텐츠가 거의 없어 검색에 노출되지 않고 있습니다. 주 1회 블로그 발행만으로도 큰 변화가 생깁니다.',
-      mid: '콘텐츠는 만들고 있지만 SEO 구조가 약합니다. 키워드 기반 글쓰기 챗봇이 도움이 됩니다.',
-      high: '꾸준한 콘텐츠 활동을 하고 계시네요. 유튜브·SNS 자동 연동으로 확장하세요.'
-    },
-    brand: {
-      low: '온라인에서 내 전문성이 거의 보이지 않습니다. 지인 소개 의존도를 낮추고 검색 유입 구조를 만들 때입니다.',
-      mid: '일부 채널에서 존재감이 있지만 통합된 브랜딩이 부족합니다. 홈페이지·블로그·SNS를 연결해 보세요.',
-      high: '디지털 브랜딩이 잘 되어 있습니다. KPI 리포트로 전환율을 더 끌어올려 보세요.'
-    },
-    ops: {
-      low: 'AI·데이터 기반 운영이 아직 시작되지 않은 상태입니다. 쉬운 AI 도구 활용법부터 배워보세요.',
-      mid: 'AI 도구를 쓰기는 하지만 체계적이지 않습니다. 업무 자동화 루틴을 만들면 시간이 많이 절약됩니다.',
-      high: 'AI 활용과 데이터 운영이 잘 되고 있습니다. 에이전트 AI 연동으로 완전 자동화를 도전해 보세요.'
-    }
-  };
-  const tier = score >= 67 ? 'high' : score >= 34 ? 'mid' : 'low';
-  return map[area][tier];
-}
-
-function renderSolutions() {
-  const sols = [];
-  if (areaScores.web < 50) sols.push({ icon: '🖥️', title: '20분 홈페이지 자동 구축', desc: '사업소개서 입력 한 번으로 섹션별 홈페이지 완성. 외주 없이 스스로 수정 가능.' });
-  if (areaScores.content < 50) sols.push({ icon: '✍️', title: 'SEO 블로그 글쓰기 챗봇', desc: '한 줄 + 키워드만 입력하면 AI가 구조 잡고, 사람의 경험을 더해 검색 최적화 글 완성.' });
-  if (areaScores.brand < 50) sols.push({ icon: '📊', title: '월간 KPI 리포트', desc: '유입·콘텐츠·전환율을 매달 분석해 개선 방향을 자동 제안. 디지털 자산이 매달 쌓입니다.' });
-  if (areaScores.ops < 50) sols.push({ icon: '🤖', title: 'AI 에이전트 자동화', desc: '카카오톡 입력 → 블로그 자동 발행 → 유튜브 콘텐츠 자동 생성 파이프라인.' });
-  if (sols.length === 0) sols.push({ icon: '🚀', title: '고도화 AI 자동화', desc: '이미 잘 하고 계십니다! 완전 자동화 에이전트 연동으로 운영 부담을 0에 가깝게 줄여보세요.' });
-
-  const container = document.getElementById('solutionList');
-  container.innerHTML = sols.map(s => `
-    <div style="display:flex;gap:12px;margin-bottom:14px;padding:14px;background:var(--warm-gray);border-radius:10px;">
-      <div style="font-size:24px;flex-shrink:0;">${s.icon}</div>
-      <div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px;">${s.title}</div>
-        <div style="font-size:12.5px;color:var(--text-light);line-height:1.6;">${s.desc}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ===================== CTA ACTIONS =====================
-
-// ⬇️ 여기에 n8n Webhook URL을 붙여넣으세요
-const N8N_WEBHOOK_URL = 'https://teetto.app.n8n.cloud/webhook/teetto-diagnosis';
-
-function collectData(action) {
-  const name = document.getElementById('userName').value;
-  const score = totalScore;
-  const areas = areaScores;
-
-  // 레벨 텍스트 계산
-  const levelText = score >= 70 ? '디지털 준비 완료' : score >= 40 ? '디지털 성장 단계' : '디지털 전환 필요';
-  const resultTitle = score >= 70
-    ? '탄탄한 기반 위에 자동화만 더하면 됩니다!'
-    : score >= 40
-    ? '조금만 더 체계화하면 성과가 나옵니다!'
-    : '지금 시작해도 늦지 않았습니다!';
-  const resultSummary = score >= 70
-    ? '디지털 운영 기초는 잘 갖춰져 있습니다. AI 자동화와 KPI 기반 운영으로 도약할 차례입니다.'
-    : score >= 40
-    ? '시작은 하셨지만 운영 구조가 미흡합니다. 홈페이지·콘텐츠·자동화를 연결하면 매출로 이어집니다.'
-    : '디지털 운영 기반이 아직 갖춰지지 않은 상태입니다. 경험과 전문성은 충분하니, 디지털 구조만 만들어 드리겠습니다.';
-
-  // 영역별 색상 (이메일 템플릿 변수)
-  const colorOf = (s) => s >= 67 ? '#2e8b57' : s >= 34 ? '#d4740a' : '#e05050';
-
-  // 솔루션 HTML (이메일 삽입용)
-  const solutionMap = {
-    web:     { icon: '🖥️', title: '20분 홈페이지 자동 구축', desc: '사업소개서 입력 한 번으로 섹션별 홈페이지 완성.' },
-    content: { icon: '✍️', title: 'SEO 블로그 글쓰기 챗봇', desc: '한 줄+키워드 입력으로 검색 최적화 글 완성·발행.' },
-    brand:   { icon: '📊', title: '월간 KPI 리포트', desc: '유입·전환율 분석 → 개선 방향 자동 제안.' },
-    ops:     { icon: '🤖', title: 'AI 에이전트 자동화', desc: '카카오톡 → 블로그 → 유튜브 콘텐츠 자동 파이프라인.' }
-  };
-  const solutionHtmlParts = [];
-  if (areas.web     < 50) solutionHtmlParts.push(solutionMap.web);
-  if (areas.content < 50) solutionHtmlParts.push(solutionMap.content);
-  if (areas.brand   < 50) solutionHtmlParts.push(solutionMap.brand);
-  if (areas.ops     < 50) solutionHtmlParts.push(solutionMap.ops);
-  if (solutionHtmlParts.length === 0) solutionHtmlParts.push({ icon: '🚀', title: '고도화 AI 자동화', desc: '완전 자동화 에이전트로 운영 부담을 0에 가깝게.' });
-
-  const solutionHtml = solutionHtmlParts.map(s =>
-    `<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px;">
-      <tr>
-        <td style="padding:12px 14px;background:#fff;border-radius:10px;border-left:3px solid #1a6b6b;">
-          <span style="font-size:13px;font-weight:700;color:#1e2228;">${s.icon} ${s.title}</span><br>
-          <span style="font-size:12px;color:#8a919e;">${s.desc}</span>
-        </td>
-      </tr>
-    </table>`
-  ).join('');
-
-  return {
-    // ── 기본 정보 ──
-    action,                       // 'consult' | 'email'
-    timestamp: new Date().toISOString(),
-    name,
-    biz:      document.getElementById('userBiz').value,
-    bizAge:   document.getElementById('userAge').value,
-    phone:    document.getElementById('userPhone').value,
-    email:    document.getElementById('userEmail').value,
-    callTime: document.getElementById('userCallTime').value,
-    pain:     document.getElementById('userPain').value,
-
-    // ── 점수 ──
-    totalScore: score,
-    webScore:     areas.web,
-    contentScore: areas.content,
-    brandScore:   areas.brand,
-    opsScore:     areas.ops,
-    levelText,
-
-    // ── 이메일 템플릿 변수 (n8n에서 HTML 이메일에 바로 삽입) ──
-    email_vars: {
-      이름:       name,
-      진단일시:   new Date().toLocaleDateString('ko-KR'),
-      종합점수:   score,
-      레벨텍스트: levelText,
-      레벨배경색: score >= 70 ? '#e6f4eb' : score >= 40 ? '#fff3e0' : '#fdecea',
-      레벨텍스트색: colorOf(score),
-      결과제목:   resultTitle,
-      결과요약:   resultSummary,
-
-      홈페이지점수: areas.web,
-      홈페이지바:   areas.web,
-      홈페이지색:   colorOf(areas.web),
-      홈페이지피드백: getAreaFeedback('web', areas.web),
-
-      콘텐츠점수: areas.content,
-      콘텐츠바:   areas.content,
-      콘텐츠색:   colorOf(areas.content),
-      콘텐츠피드백: getAreaFeedback('content', areas.content),
-
-      브랜딩점수: areas.brand,
-      브랜딩바:   areas.brand,
-      브랜딩색:   colorOf(areas.brand),
-      브랜딩피드백: getAreaFeedback('brand', areas.brand),
-
-      운영점수: areas.ops,
-      운영바:   areas.ops,
-      운영색:   colorOf(areas.ops),
-      운영피드백: getAreaFeedback('ops', areas.ops),
-
-      솔루션목록: solutionHtml,
-      수신거부링크: 'https://teetto.kr/unsubscribe'
-    },
-
-    // ── 알림톡 변수 (솔라피 템플릿 #{변수명} 매핑) ──
-    kakao_vars: {
-      이름:    name,
-      점수:    score,
-      레벨:    levelText,
-      홈페이지점수: areas.web,
-      콘텐츠점수:   areas.content,
-      브랜딩점수:   areas.brand,
-      운영점수:     areas.ops,
-    }
-  };
-}
-
-async function sendToN8n(action) {
-  const data = collectData(action);
-  try {
-    const res = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if (!res.ok) throw new Error('n8n 응답 오류: ' + res.status);
-    return true;
-  } catch (err) {
-    // 개발 중에는 console에 기록, 실제 배포 시 에러 처리 추가
-    console.warn('[티토] n8n 전송 실패 (개발 모드):', err.message);
-    console.log('[티토] 전송 데이터 확인:', data);
-    return false; // Webhook URL 미설정 시에도 UI는 정상 동작
-  }
-}
-
-async function goConsult() {
-  const name = document.getElementById('userName').value;
-  document.getElementById('finalName').textContent = name;
-
-  // n8n으로 상담 신청 데이터 전송 (비동기, UI 블로킹 없음)
-  sendToN8n('consult');
-
-  goScreen(7);
-  updateProgress(6);
-}
-
-async function goEmail() {
-  const btn = event.currentTarget;
-  btn.textContent = '발송 중...';
-  btn.disabled = true;
-
-  const ok = await sendToN8n('email');
-
-  btn.textContent = '📧 이메일로 상세 진단서 받기';
-  btn.disabled = false;
-
-  showToast(ok
-    ? '📧 이메일로 상세 진단서를 발송했습니다!'
-    : '📧 진단서 발송이 요청되었습니다. 잠시 후 메일을 확인해 주세요.'
-  );
-}
 
 // ===================== TOAST =====================
 function showToast(msg) {
@@ -1469,6 +998,304 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// ===================== SCORE CALCULATION =====================
+function getAnswers() {
+  const answers = {};
+  for (let i = 1; i <= 12; i++) {
+    const sel = document.querySelector(`.options[data-q="q${i}"] .option.selected`);
+    answers['q' + i] = sel ? parseInt(sel.dataset.val) : 0;
+  }
+  return answers;
+}
+
+function calculateResult() {
+  const answers = getAnswers();
+
+  // 영역별 점수 (각 영역 3문항, 최대 9점 → 100점 환산)
+  const webRaw   = answers.q1 + answers.q2 + answers.q3;
+  const contRaw  = answers.q4 + answers.q5 + answers.q6;
+  const brandRaw = answers.q7 + answers.q8 + answers.q9;
+  const opsRaw   = answers.q10 + answers.q11 + answers.q12;
+  const totalRaw = webRaw + contRaw + brandRaw + opsRaw;
+
+  const webScore   = Math.round(webRaw / 9 * 100);
+  const contScore  = Math.round(contRaw / 9 * 100);
+  const brandScore = Math.round(brandRaw / 9 * 100);
+  const opsScore   = Math.round(opsRaw / 9 * 100);
+  const totalScore = Math.round(totalRaw / 36 * 100);
+
+  // 레벨 판정
+  let levelText, levelColor, titleText, summaryText;
+  if (totalScore >= 75) {
+    levelText = '🚀 디지털 선도형';
+    levelColor = '#2e8b57';
+    titleText = '디지털 운영이 잘 갖춰져 있습니다';
+    summaryText = '기본 인프라는 충분합니다. 이제 성과를 극대화하는 고도화 전략이 필요한 시점입니다.';
+  } else if (totalScore >= 50) {
+    levelText = '📈 성장 가속형';
+    levelColor = '#d4740a';
+    titleText = '절반은 갖췄습니다, 지금이 도약할 때';
+    summaryText = '기본기는 있지만 체계가 부족합니다. 핵심 채널에 집중하면 빠르게 성과를 낼 수 있습니다.';
+  } else if (totalScore >= 25) {
+    levelText = '🌱 기반 구축형';
+    levelColor = '#c8953a';
+    titleText = '디지털 전환의 첫 걸음을 시작하세요';
+    summaryText = '아직 온라인 기반이 약합니다. 홈페이지와 콘텐츠부터 차근차근 구축하면 됩니다.';
+  } else {
+    levelText = '🔰 디지털 입문형';
+    levelColor = '#e05050';
+    titleText = '지금 바로 디지털 전환을 시작하세요';
+    summaryText = '디지털 운영이 거의 없는 상태입니다. 전문가의 도움으로 빠르게 기반을 만들 수 있습니다.';
+  }
+
+  diagnosisResult = { totalScore, webScore, contScore, brandScore, opsScore, levelText, titleText, summaryText, levelColor, answers };
+
+  // 점수 표시
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const scoreCircle = document.getElementById('scoreCircle');
+  if (scoreDisplay) {
+    let count = 0;
+    const timer = setInterval(() => {
+      count += 2;
+      if (count >= totalScore) { count = totalScore; clearInterval(timer); }
+      scoreDisplay.textContent = count;
+    }, 40);
+  }
+  if (scoreCircle) {
+    setTimeout(() => {
+      scoreCircle.style.strokeDashoffset = 314 - (314 * totalScore / 100);
+    }, 100);
+  }
+
+  // 레벨 뱃지
+  const levelEl = document.getElementById('resultLevel');
+  if (levelEl) {
+    levelEl.textContent = levelText;
+    levelEl.style.background = levelColor + '33';
+    levelEl.style.color = levelColor;
+  }
+  const titleEl = document.getElementById('resultTitle');
+  if (titleEl) titleEl.textContent = titleText;
+  const summaryEl = document.getElementById('resultSummary');
+  if (summaryEl) summaryEl.textContent = summaryText;
+
+  // 영역별 카드
+  const areas = [
+    { name: '🌐 홈페이지', score: webScore, feedback: getAreaFeedback('web', webScore) },
+    { name: '✍️ 콘텐츠 & SEO', score: contScore, feedback: getAreaFeedback('cont', contScore) },
+    { name: '🏷️ 디지털 브랜딩', score: brandScore, feedback: getAreaFeedback('brand', brandScore) },
+    { name: '⚙️ 운영 & AI', score: opsScore, feedback: getAreaFeedback('ops', opsScore) },
+  ];
+  const areaCards = document.getElementById('areaCards');
+  if (areaCards) {
+    areaCards.innerHTML = areas.map(a => {
+      const cls = a.score >= 67 ? 'high' : a.score >= 34 ? 'mid' : 'low';
+      return `<div class="result-area-card">
+        <div class="area-header">
+          <div class="area-name">${a.name}</div>
+          <div class="area-score-badge score-${cls}">${a.score}점</div>
+        </div>
+        <div class="area-bar-bg"><div class="area-bar-fill bar-${cls}" style="width:${a.score}%"></div></div>
+        <div class="area-feedback">${a.feedback}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // 솔루션
+  const solutionList = document.getElementById('solutionList');
+  if (solutionList) {
+    const solutions = getSolutions(totalScore, webScore, contScore, brandScore, opsScore);
+    solutionList.innerHTML = solutions.map(s =>
+      `<div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f0ebe4;">
+        <div style="font-size:20px;flex-shrink:0">${s.icon}</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:3px">${s.title}</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:1.6">${s.desc}</div>
+        </div>
+      </div>`
+    ).join('');
+  }
+}
+
+function getAreaFeedback(area, score) {
+  const map = {
+    web: {
+      high: '홈페이지가 잘 운영되고 있습니다. 전환율 최적화를 고려해 보세요.',
+      mid: '홈페이지가 있지만 개선이 필요합니다. 최신 정보 업데이트가 우선입니다.',
+      low: '온라인 거점이 없거나 매우 약합니다. 홈페이지 구축이 가장 시급합니다.'
+    },
+    cont: {
+      high: '콘텐츠 운영이 체계적입니다. SEO 최적화로 더 많은 유입을 만드세요.',
+      mid: '콘텐츠가 있지만 일관성이 부족합니다. 주 1회 발행 루틴을 만드세요.',
+      low: '콘텐츠 활동이 거의 없습니다. AI 도구를 활용해 글쓰기 부담을 줄이세요.'
+    },
+    brand: {
+      high: '온라인 전문성이 잘 드러납니다. 고객 후기와 사례를 더 활용하세요.',
+      mid: '온라인에서 존재감이 약합니다. 전문성을 보여주는 콘텐츠가 필요합니다.',
+      low: '온라인 브랜딩이 없습니다. 첫 번째 전문가 프로필 페이지를 만드세요.'
+    },
+    ops: {
+      high: '디지털 도구를 잘 활용하고 있습니다. 자동화로 효율을 더 높이세요.',
+      mid: 'AI 도구는 알지만 충분히 활용하지 못하고 있습니다. 실습이 필요합니다.',
+      low: '디지털 운영 도구 활용이 매우 낮습니다. 기초 AI 활용 교육을 권장합니다.'
+    }
+  };
+  const level = score >= 67 ? 'high' : score >= 34 ? 'mid' : 'low';
+  return map[area][level];
+}
+
+function getSolutions(total, web, cont, brand, ops) {
+  const list = [];
+  if (web < 50) list.push({ icon: '🌐', title: '홈페이지 구축 & 리뉴얼', desc: '검색에 잘 걸리고 문의가 들어오는 홈페이지를 빠르게 구축합니다.' });
+  if (cont < 50) list.push({ icon: '✍️', title: 'AI 콘텐츠 자동화', desc: 'ChatGPT와 블로그 자동화로 글쓰기 시간을 80% 줄입니다.' });
+  if (brand < 50) list.push({ icon: '🏷️', title: '퍼스널 브랜딩 구축', desc: '검색하면 나오는 전문가 이미지를 6주 안에 만듭니다.' });
+  if (ops < 50) list.push({ icon: '⚙️', title: 'AI 업무 자동화 교육', desc: 'ChatGPT, 클로드 등 AI 도구를 실제 업무에 바로 적용합니다.' });
+  if (list.length === 0) list.push({ icon: '🚀', title: '디지털 고도화 컨설팅', desc: '이미 갖춰진 기반 위에 성과를 극대화하는 전략을 설계합니다.' });
+  return list;
+}
+
+// ===================== SUBMIT (n8n 연동) =====================
+async function submitDiagnosis() {
+  const phone = document.getElementById('userPhone').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+  if (!phone) { showToast('전화번호를 입력해 주세요'); return; }
+  if (!email || !email.includes('@')) { showToast('올바른 이메일을 입력해 주세요'); return; }
+
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.disabled = true;
+  document.getElementById('loadingScreen').classList.add('show');
+
+  // 점수 계산
+  const answers = getAnswers();
+  const webRaw   = answers.q1 + answers.q2 + answers.q3;
+  const contRaw  = answers.q4 + answers.q5 + answers.q6;
+  const brandRaw = answers.q7 + answers.q8 + answers.q9;
+  const opsRaw   = answers.q10 + answers.q11 + answers.q12;
+  const totalRaw = webRaw + contRaw + brandRaw + opsRaw;
+
+  const totalScore = Math.round(totalRaw / 36 * 100);
+  const webScore   = Math.round(webRaw / 9 * 100);
+  const contScore  = Math.round(contRaw / 9 * 100);
+  const brandScore = Math.round(brandRaw / 9 * 100);
+  const opsScore   = Math.round(opsRaw / 9 * 100);
+
+  let levelText = totalScore >= 75 ? '디지털 선도형' : totalScore >= 50 ? '성장 가속형' : totalScore >= 25 ? '기반 구축형' : '디지털 입문형';
+
+  // n8n Google Sheets 컬럼에 맞춘 payload
+  // 컬럼: timestamp name phone email biz bizAge callTime action totalScore webScore contentScore brandScore opsScore levelText pain
+  const payload = {
+    timestamp:    new Date().toLocaleString('ko-KR'),
+    name:         document.getElementById('userName').value.trim(),
+    phone:        phone,
+    email:        email,
+    biz:          document.getElementById('userBiz').value,
+    bizAge:       document.getElementById('userAge').value,
+    callTime:     document.getElementById('userCallTime').value || '미선택',
+    action:       '진단완료',
+    totalScore:   totalScore,
+    webScore:     webScore,
+    contentScore: contScore,
+    brandScore:   brandScore,
+    opsScore:     opsScore,
+    levelText:    levelText,
+    pain:         document.getElementById('userPain').value.trim()
+  };
+
+  // n8n 웹훅 전송
+  try {
+    await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      mode: 'no-cors'  // CORS 우회 (깃허브 페이지 → n8n 클라우드)
+    });
+    console.log('✅ n8n 전송 완료');
+  } catch (e) {
+    console.warn('⚠️ n8n 전송 오류 (결과는 계속 표시):', e);
+  }
+
+  // 로딩 → 결과 화면
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.remove('show');
+    if (submitBtn) submitBtn.disabled = false;
+    calculateResult();
+    goScreen(6);
+    updateProgress(6);
+  }, 2800);
+}
+
+// ===================== CTA 버튼 =====================
+function goConsult() {
+  // 상담 신청 → n8n에 action: '상담신청' 으로 재전송
+  const name = document.getElementById('userName').value.trim();
+  const phone = document.getElementById('userPhone').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+
+  const payload = {
+    timestamp: new Date().toLocaleString('ko-KR'),
+    name:      name,
+    phone:     phone,
+    email:     email,
+    biz:       document.getElementById('userBiz').value,
+    bizAge:    document.getElementById('userAge').value,
+    callTime:  document.getElementById('userCallTime').value || '미선택',
+    action:    '상담신청',           // ← n8n에서 이메일 요청 여부 분기에 사용
+    totalScore: diagnosisResult.totalScore || 0,
+    webScore:   diagnosisResult.webScore || 0,
+    contentScore: diagnosisResult.contScore || 0,
+    brandScore: diagnosisResult.brandScore || 0,
+    opsScore:   diagnosisResult.opsScore || 0,
+    levelText:  diagnosisResult.levelText || '',
+    pain:       document.getElementById('userPain').value.trim()
+  };
+
+  fetch(N8N_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    mode: 'no-cors'
+  }).catch(e => console.warn('상담신청 전송 오류:', e));
+
+  document.getElementById('finalName').textContent = name;
+  goScreen(7);
+}
+
+function goEmail() {
+  // 이메일 진단서 요청 → n8n에 action: '이메일요청' 으로 전송
+  const name = document.getElementById('userName').value.trim();
+  const phone = document.getElementById('userPhone').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+
+  const payload = {
+    timestamp: new Date().toLocaleString('ko-KR'),
+    name:      name,
+    phone:     phone,
+    email:     email,
+    biz:       document.getElementById('userBiz').value,
+    bizAge:    document.getElementById('userAge').value,
+    callTime:  document.getElementById('userCallTime').value || '미선택',
+    action:    '이메일요청',          // ← n8n 분기: true → 이메일 발송
+    totalScore: diagnosisResult.totalScore || 0,
+    webScore:   diagnosisResult.webScore || 0,
+    contentScore: diagnosisResult.contScore || 0,
+    brandScore: diagnosisResult.brandScore || 0,
+    opsScore:   diagnosisResult.opsScore || 0,
+    levelText:  diagnosisResult.levelText || '',
+    pain:       document.getElementById('userPain').value.trim()
+  };
+
+  fetch(N8N_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    mode: 'no-cors'
+  }).catch(e => console.warn('이메일요청 전송 오류:', e));
+
+  showToast('📧 이메일로 상세 진단서를 발송했습니다!');
+}
 </script>
 </body>
 </html>
+
+  
