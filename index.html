@@ -1509,7 +1509,9 @@ function calculateResult() {
   document.getElementById('ctaBtns').innerHTML = `
     <a href="${primaryLink}" class="btn-orange" target="_blank">${primaryText}</a>
     <button class="btn-white-outline" onclick="goConsult('CTA')">상담 신청하기</button>
-    <button class="btn-white-outline" onclick="goEmail()">📧 이메일로 상세 결과 받기</button>
+    <div style="margin-top:10px;padding:10px 14px;background:rgba(255,255,255,0.08);border-radius:10px;font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;">
+      📧 상세 진단 결과가 <strong style="color:#ffb366;">${document.getElementById('userEmail').value}</strong> 로 발송됐습니다
+    </div>
   `;
 }
 
