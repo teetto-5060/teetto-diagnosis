@@ -1,67 +1,140 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>티토 DX-5060 | 디지털 진단</title>
+<title>티토 무료 DX진단 | 내 사업 디지털 현황 3분 진단</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 <style>
 :root {
-  --teal: #1a6b6b;
-  --teal-light: #2a9090;
-  --teal-pale: #e8f4f4;
-  --gold: #c8953a;
-  --gold-light: #f0c96a;
-  --warm-white: #faf8f5;
-  --warm-gray: #f2ede8;
+  --navy: #2c3e50;
+  --navy-dark: #1e2d3d;
+  --orange: #ff6b00;
+  --orange-light: #ff8c33;
+  --orange-pale: #fff3e0;
+  --bg: #f4f6f8;
+  --white: #ffffff;
   --text-dark: #1e2228;
   --text-mid: #4a5260;
   --text-light: #8a919e;
-  --red: #e05050;
+  --border: #e5e8ec;
   --green: #2e8b57;
-  --orange: #d4740a;
+  --red: #e05050;
+  --amber: #d4740a;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #e8eded;
+  background: var(--bg);
   color: var(--text-dark);
   min-height: 100vh;
 }
-.app-wrapper {
-  max-width: 800px;
+.app {
+  max-width: 720px;
   margin: 0 auto;
-  background: var(--warm-white);
+  background: var(--white);
   min-height: 100vh;
-  box-shadow: 0 0 40px rgba(0,0,0,0.12);
-  position: relative;
-  overflow-x: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.1);
 }
-/* HEADER */
-.header {
-  background: var(--teal);
-  padding: 18px 24px;
+
+/* NAV */
+.nav {
+  background: var(--navy);
+  padding: 14px 20px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.logo {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.nav-logo img {
+  height: 28px;
+}
+.nav-logo-text {
   color: #fff;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 800;
   letter-spacing: -0.5px;
 }
-.logo span { color: var(--gold-light); }
-.header-sub {
-  color: rgba(255,255,255,0.65);
+.nav-logo-text span { color: var(--orange); }
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.75);
   font-size: 13px;
-  margin-left: auto;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.2s;
 }
+.nav-back:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+/* PROGRESS */
+.progress-wrap {
+  background: #fff;
+  padding: 16px 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.progress-label { font-size: 12px; color: var(--text-light); }
+.progress-count { font-size: 12px; color: var(--text-mid); font-weight: 600; }
+.progress-bar {
+  height: 4px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--navy), var(--orange));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding-bottom: 14px;
+}
+.step-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  background: var(--bg);
+  color: var(--text-light);
+  transition: all 0.3s;
+}
+.step-dot.active { background: var(--navy); color: #fff; }
+.step-dot.done { background: var(--orange-pale); color: var(--orange); }
+
+/* SCREENS */
+.main { padding: 0 0 40px; }
+.screen { display: none; }
+.screen.active { display: block; }
+
 /* HERO */
 .hero {
-  background: linear-gradient(135deg, var(--teal) 0%, #0f4444 100%);
-  padding: 52px 24px 48px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  padding: 48px 24px 44px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -70,195 +143,158 @@ body {
   content: '';
   position: absolute;
   top: -40px; right: -60px;
-  width: 280px; height: 280px;
+  width: 260px; height: 260px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -60px; left: -40px;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: rgba(200, 149, 58, 0.12);
+  background: rgba(255,107,0,0.06);
 }
 .hero-badge {
   display: inline-block;
-  background: rgba(200,149,58,0.2);
-  border: 1px solid var(--gold);
-  color: var(--gold-light);
+  background: rgba(255,107,0,0.15);
+  border: 1px solid rgba(255,107,0,0.4);
+  color: #ffb366;
   font-size: 12px;
   font-weight: 700;
-  padding: 5px 14px;
+  padding: 5px 16px;
   border-radius: 20px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   margin-bottom: 20px;
 }
 .hero h1 {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 28px;
+  font-size: 26px;
   color: #fff;
   line-height: 1.45;
   margin-bottom: 14px;
-  font-weight: 700;
+  font-weight: 800;
 }
-.hero h1 em {
-  color: var(--gold-light);
-  font-style: normal;
-}
+.hero h1 em { color: var(--orange); font-style: normal; }
 .hero p {
-  color: rgba(255,255,255,0.75);
-  font-size: 15px;
-  line-height: 1.7;
-  max-width: 400px;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  line-height: 1.75;
+  max-width: 380px;
   margin: 0 auto 24px;
 }
 .hero-time {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.1);
+  gap: 7px;
+  background: rgba(255,255,255,0.08);
   border-radius: 30px;
   padding: 8px 18px;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255,255,255,0.85);
   font-size: 13px;
 }
 .hero-time .dot {
-  width: 8px; height: 8px;
+  width: 7px; height: 7px;
   border-radius: 50%;
-  background: var(--gold-light);
+  background: var(--orange);
   animation: pulse 1.5s infinite;
 }
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.5; transform:scale(0.8); }
 }
-/* PROGRESS */
-.progress-wrap {
+
+/* CARD */
+.card {
   background: #fff;
-  padding: 20px 24px 0;
-  border-bottom: 1px solid #ebe8e3;
-}
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--text-light);
-  margin-bottom: 8px;
-}
-.progress-bar {
-  height: 4px;
-  background: var(--warm-gray);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--teal), var(--teal-light));
-  border-radius: 4px;
-  transition: width 0.5s ease;
-}
-.step-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding-bottom: 16px;
-}
-.step-dot {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700;
-  background: var(--warm-gray);
-  color: var(--text-light);
-  transition: all 0.3s;
-}
-.step-dot.active {
-  background: var(--teal);
-  color: #fff;
-  box-shadow: 0 0 0 3px rgba(26,107,107,0.2);
-}
-.step-dot.done {
-  background: var(--teal-pale);
-  color: var(--teal);
-}
-/* MAIN CONTENT */
-.main { padding: 0 0 40px; }
-.screen { display: none; }
-.screen.active { display: block; }
-/* SECTION */
-.section-card {
-  background: #fff;
-  margin: 20px 16px 0;
+  margin: 16px 16px 0;
   border-radius: 16px;
-  padding: 24px 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 22px 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
 }
-.section-card + .section-card { margin-top: 12px; }
-.section-title {
+.card + .card { margin-top: 10px; }
+.card-title {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
-.section-icon {
-  width: 36px; height: 36px;
+.card-icon {
+  width: 34px; height: 34px;
   border-radius: 10px;
-  background: var(--teal-pale);
+  background: var(--orange-pale);
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: 17px;
   flex-shrink: 0;
 }
-.section-title h2 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-dark);
-}
-.section-desc {
-  font-size: 13px;
+.card-title h2 { font-size: 15px; font-weight: 700; color: var(--text-dark); }
+.card-desc {
+  font-size: 12.5px;
   color: var(--text-light);
   margin-bottom: 18px;
-  padding-left: 46px;
+  padding-left: 44px;
 }
+
+/* FIELD */
+.field { margin-bottom: 14px; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.field label .req { color: var(--red); margin-left: 2px; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: var(--text-dark);
+  background: #fff;
+  transition: border-color 0.2s;
+  outline: none;
+  -webkit-appearance: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(44,62,80,0.08);
+}
+.field textarea { resize: vertical; min-height: 80px; }
+
 /* QUESTION */
-.question { margin-bottom: 22px; }
+.question { margin-bottom: 20px; }
 .q-label {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-dark);
   margin-bottom: 10px;
   line-height: 1.5;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
-.q-label .q-num {
-  display: inline-block;
+.q-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 20px; height: 20px;
-  background: var(--teal);
+  background: var(--navy);
   color: #fff;
   border-radius: 50%;
   font-size: 11px;
   font-weight: 700;
-  text-align: center;
-  line-height: 20px;
-  margin-right: 6px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
-.options { display: flex; flex-direction: column; gap: 8px; }
+.options { display: flex; flex-direction: column; gap: 7px; }
 .option {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px 14px;
-  border: 1.5px solid #e8e4de;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
   background: #fff;
 }
-.option:hover { border-color: var(--teal-light); background: var(--teal-pale); }
-.option.selected {
-  border-color: var(--teal);
-  background: var(--teal-pale);
-}
+.option:hover { border-color: var(--orange); background: var(--orange-pale); }
+.option.selected { border-color: var(--orange); background: var(--orange-pale); }
 .option input[type="radio"] { display: none; }
 .option-radio {
   width: 18px; height: 18px;
@@ -269,10 +305,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   transition: all 0.2s;
 }
-.option.selected .option-radio {
-  border-color: var(--teal);
-  background: var(--teal);
-}
+.option.selected .option-radio { border-color: var(--orange); background: var(--orange); }
 .option.selected .option-radio::after {
   content: '';
   width: 6px; height: 6px;
@@ -280,264 +313,391 @@ body {
   background: #fff;
 }
 .option-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
-.option.selected .option-text { color: var(--teal); font-weight: 500; }
-/* INPUT FIELDS */
-.field { margin-bottom: 16px; }
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-mid);
-  margin-bottom: 6px;
+.option.selected .option-text { color: var(--orange); font-weight: 500; }
+
+/* BRANCH CARD */
+.branch-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
 }
-.field label .required { color: var(--red); margin-left: 3px; }
-.field input, .field select, .field textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid #e0dbd5;
-  border-radius: 10px;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
-  color: var(--text-dark);
+.branch-card {
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
   background: #fff;
-  transition: border-color 0.2s;
-  outline: none;
 }
-.field input:focus, .field select:focus, .field textarea:focus {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(26,107,107,0.1);
-}
-.field textarea { resize: vertical; min-height: 80px; }
+.branch-card:hover { border-color: var(--orange); background: var(--orange-pale); transform: translateY(-2px); }
+.branch-card.selected { border-color: var(--orange); background: var(--orange-pale); }
+.branch-icon { font-size: 28px; margin-bottom: 10px; }
+.branch-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.branch-desc { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+.branch-card.selected .branch-title { color: var(--orange); }
+
 /* BUTTONS */
 .btn-wrap {
-  padding: 20px 16px 0;
+  padding: 18px 16px 0;
   display: flex;
   gap: 10px;
 }
 .btn {
   flex: 1;
-  padding: 15px;
+  padding: 14px;
   border: none;
   border-radius: 12px;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Pretendard', sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--teal), #0f5050);
+  background: var(--orange);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(26,107,107,0.3);
+  box-shadow: 0 4px 14px rgba(255,107,0,0.3);
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(26,107,107,0.35); }
+.btn-primary:hover { background: var(--orange-light); transform: translateY(-1px); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .btn-secondary {
-  background: var(--warm-gray);
+  background: var(--bg);
   color: var(--text-mid);
-  flex: 0 0 80px;
+  flex: 0 0 76px;
 }
-/* NOTICE */
-.notice {
-  margin: 12px 16px 0;
-  background: #fffbf0;
-  border: 1px solid #f0d98a;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 12.5px;
-  color: #7a6020;
-  line-height: 1.6;
-}
-.notice strong { color: var(--gold); }
-/* RESULT */
-.result-hero {
-  background: linear-gradient(135deg, var(--teal) 0%, #0f4444 100%);
-  padding: 36px 20px 32px;
-  text-align: center;
+.btn-navy {
+  background: var(--navy);
   color: #fff;
+  box-shadow: 0 4px 14px rgba(44,62,80,0.25);
 }
-.result-score-ring {
-  width: 120px; height: 120px;
-  margin: 0 auto 16px;
-  position: relative;
-}
-.result-score-ring svg { transform: rotate(-90deg); }
-.score-num {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-.score-num .big { font-size: 34px; font-weight: 700; color: #fff; line-height: 1; }
-.score-num .small { font-size: 13px; color: rgba(255,255,255,0.7); }
-.result-level {
-  display: inline-block;
-  padding: 5px 18px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.result-hero h2 {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 20px;
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-.result-hero p {
-  font-size: 13.5px;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.7;
-  max-width: 360px;
-  margin: 0 auto;
-}
-/* RESULT CARDS */
-.result-area-card {
-  background: #fff;
-  margin: 12px 16px 0;
-  border-radius: 14px;
-  padding: 18px 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-}
-.area-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.area-name {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-dark);
-}
-.area-score-badge {
-  font-size: 13px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-}
-.area-bar-bg {
-  height: 8px;
-  background: var(--warm-gray);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-.area-bar-fill {
-  height: 100%;
-  border-radius: 8px;
-  transition: width 1s ease;
-}
-.area-feedback {
-  font-size: 12.5px;
-  color: var(--text-light);
-  line-height: 1.6;
-}
-.score-high { background: #e6f4eb; color: var(--green); }
-.score-mid { background: #fff3e0; color: var(--orange); }
-.score-low { background: #fdecea; color: var(--red); }
-.bar-high { background: linear-gradient(90deg, #2e8b57, #5cb87a); }
-.bar-mid { background: linear-gradient(90deg, #d4740a, #f0a840); }
-.bar-low { background: linear-gradient(90deg, #e05050, #f08080); }
-/* CTA */
-.cta-section {
-  background: linear-gradient(135deg, #0f4444, var(--teal));
-  margin: 20px 16px;
-  border-radius: 16px;
-  padding: 24px 20px;
-  text-align: center;
-}
-.cta-section h3 {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #fff;
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-.cta-section p {
-  color: rgba(255,255,255,0.75);
-  font-size: 13px;
-  margin-bottom: 18px;
-  line-height: 1.6;
-}
-.cta-buttons { display: flex; flex-direction: column; gap: 10px; }
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold), #a8751a);
-  color: #fff;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(200,149,58,0.4);
-}
-.btn-gold:hover { transform: translateY(-1px); }
-.btn-outline-white {
-  background: transparent;
-  color: #fff;
-  padding: 13px;
-  border: 1.5px solid rgba(255,255,255,0.4);
-  border-radius: 12px;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+.btn-navy:hover { background: var(--navy-dark); transform: translateY(-1px); }
+
 /* CONSENT */
 .consent-row {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   padding: 12px 14px;
-  background: var(--warm-gray);
+  background: var(--bg);
   border-radius: 10px;
   margin-top: 8px;
   cursor: pointer;
 }
-.consent-row input { margin-top: 2px; accent-color: var(--teal); cursor: pointer; }
-.consent-row label {
+.consent-row input { margin-top: 2px; accent-color: var(--navy); cursor: pointer; }
+.consent-row label { font-size: 12.5px; color: var(--text-mid); line-height: 1.6; cursor: pointer; }
+.consent-row label a { color: var(--orange); text-decoration: underline; }
+
+/* NOTICE */
+.notice {
+  margin: 10px 0 0;
+  background: #fff8f0;
+  border: 1px solid #ffd9b3;
+  border-radius: 10px;
+  padding: 12px 14px;
   font-size: 12.5px;
-  color: var(--text-mid);
+  color: #8a5a20;
   line-height: 1.6;
+}
+.notice strong { color: var(--orange); }
+
+/* TYPE BADGE */
+.type-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* RESULT */
+.result-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  padding: 36px 20px 32px;
+  text-align: center;
+  color: #fff;
+}
+.score-ring {
+  width: 120px; height: 120px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+.score-ring svg { transform: rotate(-90deg); }
+.score-num {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+.score-num .big { font-size: 34px; font-weight: 800; color: #fff; line-height: 1; }
+.score-num .small { font-size: 12px; color: rgba(255,255,255,0.65); }
+.result-hero h2 { font-size: 19px; font-weight: 800; margin-bottom: 8px; line-height: 1.45; }
+.result-hero p { font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 360px; margin: 0 auto; }
+
+/* RESULT AREA */
+.area-card {
+  background: #fff;
+  margin: 10px 16px 0;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
+}
+.area-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.area-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+.area-badge {
+  font-size: 12px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+.high { background: #e6f4eb; color: var(--green); }
+.mid { background: #fff3e0; color: var(--amber); }
+.low { background: #fdecea; color: var(--red); }
+.area-bar-bg { height: 7px; background: var(--bg); border-radius: 7px; overflow: hidden; margin-bottom: 7px; }
+.area-bar { height: 100%; border-radius: 7px; transition: width 1s ease; }
+.bar-high { background: linear-gradient(90deg, #2e8b57, #5cb87a); }
+.bar-mid { background: linear-gradient(90deg, var(--amber), #f0a840); }
+.bar-low { background: linear-gradient(90deg, var(--red), #f08080); }
+.area-feedback { font-size: 12.5px; color: var(--text-light); line-height: 1.6; }
+
+/* SITUATION */
+.situation-card {
+  background: #fff;
+  margin: 10px 16px 0;
+  border-radius: 14px;
+  padding: 18px 16px;
+  border-left: 4px solid var(--orange);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.situation-title { font-size: 13px; font-weight: 700; color: var(--orange); margin-bottom: 8px; }
+.situation-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.75; }
+
+/* SOLUTION */
+.solution-card {
+  background: #fff;
+  margin: 10px 16px 0;
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
+}
+.solution-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+.solution-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bg);
+  align-items: flex-start;
+}
+.solution-item:last-child { border-bottom: none; padding-bottom: 0; }
+.solution-icon { font-size: 20px; flex-shrink: 0; }
+.solution-item-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
+.solution-item-desc { font-size: 12px; color: var(--text-light); line-height: 1.6; }
+.solution-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--orange);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,107,0,0.3);
+}
+
+/* TIPS */
+.tips-card {
+  background: #fff;
+  margin: 10px 16px 0;
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
+}
+.tips-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+.tip-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bg);
+}
+.tip-item:last-child { border-bottom: none; padding-bottom: 0; }
+.tip-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.tip-num {
+  width: 20px; height: 20px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.tip-item-title { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.tip-item-desc { font-size: 12px; color: var(--text-light); line-height: 1.6; padding-left: 28px; }
+.tip-request {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 28px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--orange);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,107,0,0.3);
   cursor: pointer;
 }
-.consent-row label a { color: var(--teal); text-decoration: underline; }
+
+/* CTA SECTION */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+  margin: 16px 16px 0;
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.cta-section h3 { color: #fff; font-size: 17px; margin-bottom: 8px; line-height: 1.4; }
+.cta-section p { color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 18px; line-height: 1.6; }
+.cta-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn-orange {
+  background: var(--orange);
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(255,107,0,0.35);
+}
+.btn-orange:hover { background: var(--orange-light); transform: translateY(-1px); }
+.btn-white-outline {
+  background: transparent;
+  color: #fff;
+  padding: 13px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 12px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-white-outline:hover { background: rgba(255,255,255,0.08); }
+
+/* DEEP ANALYSIS */
+.deep-card {
+  background: var(--orange-pale);
+  margin: 10px 16px 0;
+  border-radius: 14px;
+  padding: 20px 18px;
+  border: 1.5px solid rgba(255,107,0,0.2);
+}
+.deep-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.deep-desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; margin-bottom: 14px; }
+.deep-input-wrap { display: flex; gap: 8px; }
+.deep-input {
+  flex: 1;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  outline: none;
+}
+.deep-input:focus { border-color: var(--orange); }
+.deep-btn {
+  padding: 11px 18px;
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.deep-btn:hover { background: var(--orange-light); }
+.deep-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.deep-result {
+  margin-top: 14px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  display: none;
+}
+.deep-result.show { display: block; }
+.deep-result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bg);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.deep-result-item:last-child { border-bottom: none; }
+.deep-result-icon { font-size: 15px; flex-shrink: 0; }
+.deep-result-text { color: var(--text-mid); }
+.deep-result-text strong { color: var(--text-dark); display: block; margin-bottom: 2px; font-size: 13px; }
+.deep-analyzing {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-light);
+  font-size: 13px;
+  display: none;
+}
+.deep-analyzing.show { display: block; }
+.deep-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--bg);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 8px;
+}
+
 /* LOADING */
-.loading-screen {
+.loading-overlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15,40,40,0.85);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(30,45,61,0.88);
   z-index: 9999;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
 }
-.loading-screen.show { display: flex; }
+.loading-overlay.show { display: flex; }
 .spinner {
-  width: 48px; height: 48px;
-  border: 4px solid rgba(255,255,255,0.2);
-  border-top-color: var(--gold-light);
+  width: 46px; height: 46px;
+  border: 4px solid rgba(255,255,255,0.15);
+  border-top-color: var(--orange);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-screen p { color: #fff; font-size: 15px; font-weight: 500; }
-.loading-screen small { color: rgba(255,255,255,0.6); font-size: 12px; }
+.loading-overlay p { color: #fff; font-size: 15px; font-weight: 600; }
+.loading-overlay small { color: rgba(255,255,255,0.55); font-size: 12px; }
+
 /* TOAST */
 .toast {
-  max-width: 760px;
+  max-width: 700px;
   position: fixed;
   bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(80px);
@@ -551,53 +711,40 @@ body {
   white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-/* FINAL SUCCESS */
+
+/* SUCCESS */
 .success-icon {
-  width: 72px; height: 72px;
-  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  width: 68px; height: 68px;
+  background: var(--orange);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 32px;
+  font-size: 30px;
   margin: 0 auto 16px;
-  box-shadow: 0 6px 20px rgba(26,107,107,0.35);
+  box-shadow: 0 6px 20px rgba(255,107,0,0.3);
 }
-.tip-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.tip-list li {
-  display: flex;
-  gap: 10px;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--text-mid);
-}
-.tip-list li .tip-icon {
-  font-size: 16px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
+
 @media (max-width: 420px) {
-  .hero h1 { font-size: 24px; }
+  .hero h1 { font-size: 22px; }
+  .branch-wrap { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-<div class="app-wrapper">
+<div class="app">
 
-<!-- HEADER -->
-<div class="header">
-  <div class="logo">티토 <span>DX-5060</span></div>
-  <div class="header-sub">디지털 역량 진단</div>
-</div>
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://teetto.kr" class="nav-logo">
+    <span class="nav-logo-text">티토 <span>DX진단</span></span>
+  </a>
+  <a href="https://teetto.kr" class="nav-back">← 티토 홈으로</a>
+</nav>
 
 <!-- PROGRESS -->
 <div class="progress-wrap" id="progressWrap">
-  <div class="progress-label">
-    <span id="stepLabel">진단 시작</span>
-    <span id="stepCount">0 / 5</span>
+  <div class="progress-top">
+    <span class="progress-label" id="stepLabel">진단 시작</span>
+    <span class="progress-count" id="stepCount">0 / 4</span>
   </div>
   <div class="progress-bar">
     <div class="progress-fill" id="progressFill" style="width:0%"></div>
@@ -607,65 +754,45 @@ body {
     <div class="step-dot" id="dot1">2</div>
     <div class="step-dot" id="dot2">3</div>
     <div class="step-dot" id="dot3">4</div>
-    <div class="step-dot" id="dot4">5</div>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-<!-- SCREEN 0: 시작 -->
+<!-- SCREEN 0: 시작 + 기본정보 -->
 <div class="screen active" id="screen0">
   <div class="hero">
     <div class="hero-badge">무료 · 3분 완성</div>
-    <h1>내 사업의 디지털 현황,<br><em>지금 어디쯤</em> 와 있을까요?</h1>
-    <p>17개 진단 문항으로 홈페이지·콘텐츠·브랜딩·운영 4개 영역을 분석하고 맞춤 피드백을 드립니다.</p>
+    <h1>내 사업 디지털 현황,<br><em>지금 어디쯤</em> 와 있을까요?</h1>
+    <p>홈페이지·콘텐츠·브랜딩·운영 4개 영역을 분석하고<br>사장님 상황에 맞는 솔루션을 드립니다.</p>
     <div class="hero-time">
       <div class="dot"></div>
-      약 3분 소요 · 전문가 분석 포함
+      약 3분 소요 · 맞춤 분석 포함
     </div>
   </div>
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">👤</div>
-      <h2>기본 정보 입력</h2>
+
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">👤</div>
+      <h2>기본 정보</h2>
     </div>
-    <div class="section-desc">진단 결과를 받아보실 정보를 입력해 주세요</div>
+    <div class="card-desc">진단 결과를 받아보실 정보를 입력해 주세요</div>
     <div class="field">
-      <label>성함 <span class="required">*</span></label>
+      <label>성함 <span class="req">*</span></label>
       <input type="text" id="userName" placeholder="홍길동" />
     </div>
     <div class="field">
-      <label>상호명 / 브랜드명 <span class="required">*</span></label>
+      <label>상호명 / 브랜드명 <span class="req">*</span></label>
       <input type="text" id="userBrand" placeholder="예: 티토 컨설팅, 홍길동 한의원" />
     </div>
     <div class="field">
-      <label>네이버 스마트플레이스 등록 여부</label>
-      <select id="userNaver">
-        <option value="">선택해 주세요</option>
-        <option>등록 안 함</option>
-        <option>등록했지만 관리 안 함</option>
-        <option>등록하고 관리 중</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>구글 지도에 내 사업장이 등록되어 있나요?</label>
-      <select id="userGoogle">
-        <option value="">선택해 주세요</option>
-        <option>등록 안 함</option>
-        <option>등록했지만 관리 안 함</option>
-        <option>등록하고 관리 중</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>업종 / 사업 분야 <span class="required">*</span></label>
+      <label>업종 <span class="req">*</span></label>
       <select id="userBiz">
         <option value="">선택해 주세요</option>
         <option>컨설팅 / 강의 / 코칭</option>
         <option>제조 / 유통</option>
         <option>요식업 / 카페</option>
         <option>전문직 (의료·법무·세무 등)</option>
-        <option>IT / 디지털 서비스</option>
         <option>교육 / 학원</option>
         <option>뷰티 / 헬스 / 웰니스</option>
         <option>부동산 / 인테리어</option>
@@ -674,7 +801,7 @@ body {
       </select>
     </div>
     <div class="field">
-      <label>창업한 지 얼마나 되셨나요? <span class="required">*</span></label>
+      <label>창업한 지 얼마나 되셨나요? <span class="req">*</span></label>
       <select id="userAge">
         <option value="">선택해 주세요</option>
         <option>6개월 미만</option>
@@ -686,649 +813,826 @@ body {
     </div>
     <div class="consent-row">
       <input type="checkbox" id="consent1" />
-      <label for="consent1">개인정보 수집·이용에 동의합니다. (진단 결과 발송 및 서비스 개선 목적. <a href="#">개인정보처리방침</a>)</label>
+      <label for="consent1">개인정보 수집·이용에 동의합니다. (진단 결과 발송 및 서비스 개선 목적. <a href="https://teetto.kr/privacy" target="_blank">개인정보처리방침</a>)</label>
     </div>
   </div>
+
   <div class="btn-wrap">
-    <button class="btn btn-primary" onclick="goScreen(1)">진단 시작하기 →</button>
+    <button class="btn btn-primary" onclick="goNext0()">진단 시작하기 →</button>
   </div>
 </div>
 
-<!-- SCREEN 1: 홈페이지 진단 -->
+<!-- SCREEN 1: 분기 -->
 <div class="screen" id="screen1">
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">🌐</div>
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">🌐</div>
       <h2>홈페이지 현황</h2>
     </div>
-    <div class="section-desc">현재 온라인 거점이 어떤 상태인지 확인합니다</div>
-    <div class="question" id="q1">
-      <div class="q-label"><span class="q-num">1</span>현재 운영 중인 홈페이지(웹사이트)가 있나요?</div>
-      <div class="options" data-q="q1" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">없음 (아직 만들지 않음)</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">SNS(인스타·블로그)만 있음</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">홈페이지 있지만 오래돼서 거의 안 씀</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q1"><div class="option-radio"></div><span class="option-text">홈페이지 있고, 정기적으로 업데이트함</span></label>
+    <div class="card-desc">가장 먼저 현재 상황을 확인할게요</div>
+
+    <div class="question">
+      <div class="q-label">
+        <span class="q-num">1</span>
+        현재 운영 중인 홈페이지가 있으신가요?
       </div>
-    </div>
-    <div class="question" id="q2">
-      <div class="q-label"><span class="q-num">2</span>홈페이지에서 가장 어려운 점은 무엇인가요?</div>
-      <div class="options" data-q="q2" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">처음부터 어떻게 만드는지 모름</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">외주로 만들었는데 수정이 어려움</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">만들었는데 방문자가 없음</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q2"><div class="option-radio"></div><span class="option-text">관리할 시간이 없음</span></label>
-      </div>
-    </div>
-    <div class="question" id="q3">
-      <div class="q-label"><span class="q-num">3</span>홈페이지에 회사 소개, 서비스, 연락처가 명확히 있나요?</div>
-      <div class="options" data-q="q3" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">없거나 모름</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">일부만 있음</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">대부분 있지만 오래된 정보</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q3"><div class="option-radio"></div><span class="option-text">최신 정보로 잘 정리돼 있음</span></label>
+      <div class="branch-wrap">
+        <div class="branch-card" id="branchA" onclick="selectBranch('A')">
+          <div class="branch-icon">🏠</div>
+          <div class="branch-title">홈페이지 있어요</div>
+          <div class="branch-desc">만들어놨는데<br>잘 모르겠어요</div>
+        </div>
+        <div class="branch-card" id="branchB" onclick="selectBranch('B')">
+          <div class="branch-icon">📱</div>
+          <div class="branch-title">홈페이지 없어요</div>
+          <div class="branch-desc">SNS나 카카오만<br>쓰고 있어요</div>
+        </div>
       </div>
     </div>
   </div>
+
   <div class="btn-wrap">
     <button class="btn btn-secondary" onclick="goScreen(0)">이전</button>
-    <button class="btn btn-primary" onclick="goScreen(2)">다음 →</button>
+    <button class="btn btn-primary" onclick="goNext1()">다음 →</button>
   </div>
 </div>
 
-<!-- SCREEN 2: 콘텐츠 진단 -->
-<div class="screen" id="screen2">
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">✍️</div>
-      <h2>콘텐츠 & SEO 현황</h2>
+<!-- SCREEN 2A: 홈페이지 있음 -->
+<div class="screen" id="screen2A">
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">🏠</div>
+      <h2>홈페이지 진단</h2>
     </div>
-    <div class="section-desc">검색 노출과 콘텐츠 활동을 점검합니다</div>
+    <div class="card-desc">현재 홈페이지가 어떤 상태인지 확인합니다</div>
+
     <div class="question">
-      <div class="q-label"><span class="q-num">4</span>블로그 또는 SNS에 얼마나 자주 글을 올리나요?</div>
-      <div class="options" data-q="q4" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">거의 안 올림 (월 1회 미만)</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">가끔 올림 (월 1~2회)</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">주 1회 정도 꾸준히</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q4"><div class="option-radio"></div><span class="option-text">주 2회 이상, 체계적으로 운영</span></label>
+      <div class="q-label"><span class="q-num">2</span>홈페이지를 마지막으로 수정한 게 언제예요?</div>
+      <div class="options" data-q="qa2">
+        <label class="option" data-val="3"><input type="radio" name="qa2"><div class="option-radio"></div><span class="option-text">1개월 이내</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qa2"><div class="option-radio"></div><span class="option-text">6개월 이내</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qa2"><div class="option-radio"></div><span class="option-text">1년 이상됐어요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qa2"><div class="option-radio"></div><span class="option-text">거의 수정 안 해요</span></label>
       </div>
     </div>
+
     <div class="question">
-      <div class="q-label"><span class="q-num">5</span>콘텐츠를 만들 때 가장 힘든 점은 무엇인가요?</div>
-      <div class="options" data-q="q5" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">뭘 써야 할지 주제를 모름</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">글쓰기 자체가 어렵고 시간이 너무 걸림</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">쓰긴 하는데 검색에 안 나옴</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q5"><div class="option-radio"></div><span class="option-text">꽤 잘하고 있음</span></label>
+      <div class="q-label"><span class="q-num">3</span>홈페이지를 직접 수정할 수 있나요?</div>
+      <div class="options" data-q="qa3">
+        <label class="option" data-val="3"><input type="radio" name="qa3"><div class="option-radio"></div><span class="option-text">혼자 수정할 수 있어요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qa3"><div class="option-radio"></div><span class="option-text">업체에 연락해야 해요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qa3"><div class="option-radio"></div><span class="option-text">어떻게 하는지 몰라요</span></label>
       </div>
     </div>
+
     <div class="question">
-      <div class="q-label"><span class="q-num">6</span>'내 이름' 또는 '내 서비스 명'을 검색하면 결과가 나오나요?</div>
-      <div class="options" data-q="q6" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">검색해 본 적 없음</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">검색해봤는데 내 정보가 안 나옴</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">일부 나오지만 정보가 부족함</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q6"><div class="option-radio"></div><span class="option-text">잘 나오고 있음</span></label>
+      <div class="q-label"><span class="q-num">4</span>홈페이지 주소를 구글·네이버에서 검색하면 나오나요?</div>
+      <div class="options" data-q="qa4">
+        <label class="option" data-val="3"><input type="radio" name="qa4"><div class="option-radio"></div><span class="option-text">둘 다 잘 나와요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qa4"><div class="option-radio"></div><span class="option-text">네이버만 나와요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qa4"><div class="option-radio"></div><span class="option-text">가끔 나와요</span></label>
+        <label class="option" data-val="0"><div class="option-radio"></div><span class="option-text">검색해본 적 없어요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">5</span>방문자가 하루에 몇 명인지 알고 있나요?</div>
+      <div class="options" data-q="qa5">
+        <label class="option" data-val="3"><input type="radio" name="qa5"><div class="option-radio"></div><span class="option-text">알고 있고 매달 확인해요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qa5"><div class="option-radio"></div><span class="option-text">가끔 확인해요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qa5"><div class="option-radio"></div><span class="option-text">확인하는 방법을 모르겠어요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qa5"><div class="option-radio"></div><span class="option-text">전혀 몰라요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">6</span>홈페이지를 통해 문의가 오나요?</div>
+      <div class="options" data-q="qa6">
+        <label class="option" data-val="3"><input type="radio" name="qa6"><div class="option-radio"></div><span class="option-text">자주 와요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qa6"><div class="option-radio"></div><span class="option-text">가끔 와요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qa6"><div class="option-radio"></div><span class="option-text">거의 없어요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qa6"><div class="option-radio"></div><span class="option-text">전혀 없어요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">7</span>SNS나 블로그를 운영하고 있나요?</div>
+      <div class="options" data-q="qa7">
+        <label class="option" data-val="3"><input type="radio" name="qa7"><div class="option-radio"></div><span class="option-text">네이버블로그·인스타·페이스북 등 주 1회 이상</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qa7"><div class="option-radio"></div><span class="option-text">월 1~2회 정도 올려요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qa7"><div class="option-radio"></div><span class="option-text">가끔 올려요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qa7"><div class="option-radio"></div><span class="option-text">운영 안 해요</span></label>
       </div>
     </div>
   </div>
   <div class="btn-wrap">
     <button class="btn btn-secondary" onclick="goScreen(1)">이전</button>
-    <button class="btn btn-primary" onclick="goScreen(3)">다음 →</button>
+    <button class="btn btn-primary" onclick="goNext2A()">다음 →</button>
   </div>
 </div>
 
-<!-- SCREEN 3: 브랜딩 -->
-<div class="screen" id="screen3">
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">🏷️</div>
-      <h2>디지털 브랜딩 현황</h2>
+<!-- SCREEN 2B: 홈페이지 없음 -->
+<div class="screen" id="screen2B">
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">📱</div>
+      <h2>온라인 현황 진단</h2>
     </div>
-    <div class="section-desc">온라인에서 내 사업이 얼마나 잘 보이는지 확인합니다</div>
+    <div class="card-desc">현재 온라인 활동을 확인합니다</div>
+
     <div class="question">
-      <div class="q-label"><span class="q-num">7</span>온라인에서 내 사업·경력의 전문성이 잘 드러나고 있나요?</div>
-      <div class="options" data-q="q7" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">전혀 안 드러남</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">아는 분들만 알고 있음</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">SNS에 약간 있지만 부족함</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q7"><div class="option-radio"></div><span class="option-text">홈페이지·블로그·SNS에 잘 표현됨</span></label>
+      <div class="q-label"><span class="q-num">2</span>네이버에 내 업체 이름을 검색하면 어떻게 나오나요?</div>
+      <div class="options" data-q="qb2">
+        <label class="option" data-val="3"><input type="radio" name="qb2"><div class="option-radio"></div><span class="option-text">업체 정보가 잘 나와요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qb2"><div class="option-radio"></div><span class="option-text">가끔 나와요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qb2"><div class="option-radio"></div><span class="option-text">거의 안 나와요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qb2"><div class="option-radio"></div><span class="option-text">검색해본 적 없어요</span></label>
       </div>
     </div>
+
     <div class="question">
-      <div class="q-label"><span class="q-num">8</span>고객이 온라인으로 나를 처음 알게 되는 경로는?</div>
-      <div class="options" data-q="q8" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">주로 지인 소개 (온라인 경로 없음)</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">카카오톡·문자 공유</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">인스타그램·유튜브 등 SNS</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q8"><div class="option-radio"></div><span class="option-text">구글·네이버 검색 + 홈페이지</span></label>
+      <div class="q-label"><span class="q-num">3</span>고객이 주로 어떻게 사장님을 알게 되나요?</div>
+      <div class="options" data-q="qb3">
+        <label class="option" data-val="3"><input type="radio" name="qb3"><div class="option-radio"></div><span class="option-text">구글·네이버 검색으로 찾아와요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qb3"><div class="option-radio"></div><span class="option-text">SNS에서 봤다고 해요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qb3"><div class="option-radio"></div><span class="option-text">카카오톡·문자로 소개받아요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qb3"><div class="option-radio"></div><span class="option-text">대부분 지인 소개예요</span></label>
       </div>
     </div>
+
     <div class="question">
-      <div class="q-label"><span class="q-num">9</span>온라인으로 문의·예약·구매가 들어오나요?</div>
-      <div class="options" data-q="q9" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">온라인 문의 구조 자체가 없음</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">카카오 오픈채팅 정도만 있음</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">간혹 들어오지만 불규칙함</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q9"><div class="option-radio"></div><span class="option-text">정기적으로 온라인 문의·전환 발생</span></label>
+      <div class="q-label"><span class="q-num">4</span>사장님 이름이나 업체명을 구글에 검색해보신 적 있나요?</div>
+      <div class="options" data-q="qb4">
+        <label class="option" data-val="3"><input type="radio" name="qb4"><div class="option-radio"></div><span class="option-text">검색했고 잘 나와요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qb4"><div class="option-radio"></div><span class="option-text">검색했는데 안 나와요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qb4"><div class="option-radio"></div><span class="option-text">검색해본 적 없어요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">5</span>현재 어떤 채널로 홍보하고 있나요?</div>
+      <div class="options" data-q="qb5">
+        <label class="option" data-val="3"><input type="radio" name="qb5"><div class="option-radio"></div><span class="option-text">네이버블로그·인스타·페이스북 등 2개 이상</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qb5"><div class="option-radio"></div><span class="option-text">카카오채널·오픈채팅 정도만 있어요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qb5"><div class="option-radio"></div><span class="option-text">SNS 하나만 운영해요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qb5"><div class="option-radio"></div><span class="option-text">온라인 홍보를 안 해요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">6</span>홈페이지가 없는 이유가 무엇인가요?</div>
+      <div class="options" data-q="qb6">
+        <label class="option" data-val="1"><input type="radio" name="qb6"><div class="option-radio"></div><span class="option-text">비용이 부담돼요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qb6"><div class="option-radio"></div><span class="option-text">어떻게 만드는지 몰라요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qb6"><div class="option-radio"></div><span class="option-text">필요성을 못 느꼈어요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qb6"><div class="option-radio"></div><span class="option-text">지금 알아보는 중이에요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">7</span>홈페이지를 만든다면 어떻게 운영하고 싶으세요?</div>
+      <div class="options" data-q="qb7">
+        <label class="option" data-val="self"><input type="radio" name="qb7"><div class="option-radio"></div><span class="option-text">직접 관리하고 싶어요</span></label>
+        <label class="option" data-val="care"><input type="radio" name="qb7"><div class="option-radio"></div><span class="option-text">전문가에게 맡기고 싶어요</span></label>
+        <label class="option" data-val="both"><input type="radio" name="qb7"><div class="option-radio"></div><span class="option-text">아직 모르겠어요</span></label>
       </div>
     </div>
   </div>
   <div class="btn-wrap">
-    <button class="btn btn-secondary" onclick="goScreen(2)">이전</button>
+    <button class="btn btn-secondary" onclick="goScreen(1)">이전</button>
+    <button class="btn btn-primary" onclick="goNext2B()">다음 →</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: 공통 마무리 -->
+<div class="screen" id="screen3">
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">⚙️</div>
+      <h2>디지털 운영 현황</h2>
+    </div>
+    <div class="card-desc">마지막으로 3가지만 더 확인할게요</div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">8</span>운영 중인 채널들이 서로 연결되어 있나요?<br><small style="font-weight:400;color:var(--text-light);">SNS → 홈페이지 → 문의로 이어지는 구조</small></div>
+      <div class="options" data-q="qc1">
+        <label class="option" data-val="3"><input type="radio" name="qc1"><div class="option-radio"></div><span class="option-text">홈페이지·SNS·문의까지 연결돼 있어요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qc1"><div class="option-radio"></div><span class="option-text">일부만 연결돼 있어요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qc1"><div class="option-radio"></div><span class="option-text">각각 따로 운영해요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qc1"><div class="option-radio"></div><span class="option-text">채널이 하나뿐이에요</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-label"><span class="q-num">9</span>AI 도구(ChatGPT, 클로드 등)를 업무에 활용하고 있나요?</div>
+      <div class="options" data-q="qc2">
+        <label class="option" data-val="3"><input type="radio" name="qc2"><div class="option-radio"></div><span class="option-text">콘텐츠·업무에 적극 활용 중이에요</span></label>
+        <label class="option" data-val="2"><input type="radio" name="qc2"><div class="option-radio"></div><span class="option-text">가끔 글쓰기에 써요</span></label>
+        <label class="option" data-val="1"><input type="radio" name="qc2"><div class="option-radio"></div><span class="option-text">써봤는데 어떻게 활용할지 모르겠어요</span></label>
+        <label class="option" data-val="0"><input type="radio" name="qc2"><div class="option-radio"></div><span class="option-text">써본 적 없어요</span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">💬</div>
+      <h2>지금 가장 불편한 점</h2>
+    </div>
+    <div class="card-desc">솔직하게 적어주시면 맞춤 분석에 반영됩니다 (선택)</div>
+    <div class="field">
+      <textarea id="userPain" placeholder="예: 홈페이지를 만들었는데 문의가 없어요. 블로그를 써야 하는 건 아는데 뭘 써야 할지 모르겠어요..."></textarea>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn btn-secondary" id="screen3Back" onclick="">이전</button>
     <button class="btn btn-primary" onclick="goScreen(4)">다음 →</button>
   </div>
 </div>
 
-<!-- SCREEN 4: 운영 & AI -->
+<!-- SCREEN 4: 연락처 -->
 <div class="screen" id="screen4">
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">⚙️</div>
-      <h2>디지털 운영 & AI 활용</h2>
-    </div>
-    <div class="section-desc">현재 디지털 도구 활용도와 운영 역량을 점검합니다</div>
-    <div class="question">
-      <div class="q-label"><span class="q-num">10</span>AI 도구(ChatGPT, 클로드, 뤼튼 등)를 업무에 활용하고 있나요?</div>
-      <div class="options" data-q="q10" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">들어는 봤지만 써본 적 없음</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">써봤는데 어떻게 활용할지 모름</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">가끔 글쓰기나 번역에 씀</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q10"><div class="option-radio"></div><span class="option-text">콘텐츠·업무에 적극 활용 중</span></label>
-      </div>
-    </div>
-    <div class="question">
-      <div class="q-label"><span class="q-num">11</span>홈페이지나 블로그 데이터(방문자 수 등)를 확인하고 있나요?</div>
-      <div class="options" data-q="q11" data-type="radio">
-        <label class="option" data-val="0"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">확인 방법을 모름</span></label>
-        <label class="option" data-val="1"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">알고는 있는데 안 보게 됨</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">가끔 확인함</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q11"><div class="option-radio"></div><span class="option-text">정기적으로 보고 운영에 반영함</span></label>
-      </div>
-    </div>
-    <div class="question">
-      <div class="q-label"><span class="q-num">12</span>디지털 운영에 월 얼마 정도 투자할 의향이 있으신가요?</div>
-      <div class="options" data-q="q12" data-type="radio">
-        <label class="option" data-val="1"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">5만원 미만</span></label>
-        <label class="option" data-val="2"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">5~15만원</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">15~30만원</span></label>
-        <label class="option" data-val="3"><input type="radio" name="q12"><div class="option-radio"></div><span class="option-text">30만원 이상 (성과가 나온다면)</span></label>
-      </div>
-    </div>
-  </div>
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">💬</div>
-      <h2>자유 입력</h2>
-    </div>
-    <div class="section-desc">현재 가장 답답한 점을 짧게 적어주세요 (선택)</div>
-    <div class="field">
-      <textarea id="userPain" placeholder="예: 홈페이지를 만들었는데 아무도 안 들어와요. 글쓰기가 너무 힘들어요..."></textarea>
-    </div>
-  </div>
-  <div class="btn-wrap">
-    <button class="btn btn-secondary" onclick="goScreen(3)">이전</button>
-    <button class="btn btn-primary" onclick="goScreen(5)">다음 →</button>
-  </div>
-</div>
-
-<!-- SCREEN 5: 연락처 입력 -->
-<div class="screen" id="screen5">
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">📨</div>
+  <div class="card">
+    <div class="card-title">
+      <div class="card-icon">📨</div>
       <h2>진단 결과 받기</h2>
     </div>
-    <div class="section-desc">연락처를 입력하시면 상세 진단 결과와 맞춤 솔루션을 보내드립니다</div>
+    <div class="card-desc">이메일로 상세 진단 결과와 맞춤 솔루션을 보내드립니다</div>
+    <div class="field">
+      <label>성함 확인</label>
+      <input type="text" id="confirmName" placeholder="홍길동" />
+    </div>
     <div class="field">
       <label>전화번호</label>
       <input type="tel" id="userPhone" placeholder="010-0000-0000 (선택)" />
     </div>
     <div class="field">
-      <label>이메일 <span class="required">*</span></label>
+      <label>이메일 <span class="req">*</span></label>
       <input type="email" id="userEmail" placeholder="example@email.com" />
     </div>
-
     <div class="notice">
-      <strong>📌 수집 목적 안내</strong><br>
-      입력하신 정보는 진단 결과 발송, 맞춤 서비스 안내, 티토 서비스 개선에만 활용되며 제3자에게 제공되지 않습니다.
+      <strong>📌</strong> 입력하신 정보는 진단 결과 발송 및 티토 서비스 안내에만 활용되며 제3자에게 제공되지 않습니다.
     </div>
   </div>
   <div class="btn-wrap">
-    <button class="btn btn-secondary" onclick="goScreen(4)">이전</button>
+    <button class="btn btn-secondary" onclick="goScreen(3)">이전</button>
     <button class="btn btn-primary" id="submitBtn" onclick="submitDiagnosis()">진단 결과 보기 🎯</button>
   </div>
 </div>
 
-<!-- SCREEN 6: 결과 화면 -->
-<div class="screen" id="screen6">
+<!-- SCREEN 5: 결과 -->
+<div class="screen" id="screen5">
   <div class="result-hero">
-    <div class="result-score-ring">
-      <svg viewBox="0 0 120 120" width="120" height="120">
+    <div class="score-ring">
+      <svg width="120" height="120" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="10"/>
-        <circle id="scoreCircle" cx="60" cy="60" r="50" fill="none" stroke="#f0c96a" stroke-width="10"
-          stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
-          style="transition: stroke-dashoffset 1.5s ease;"/>
+        <circle id="scoreCircle" cx="60" cy="60" r="50" fill="none" stroke="#ff6b00" stroke-width="10" stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"/>
       </svg>
       <div class="score-num">
         <div class="big" id="scoreDisplay">0</div>
         <div class="small">/ 100</div>
       </div>
     </div>
-    <div class="result-level" id="resultLevel">분석 중...</div>
-    <h2 id="resultTitle">진단 결과</h2>
+    <div class="type-badge" id="resultType"></div>
+    <h2 id="resultTitle"></h2>
     <p id="resultSummary"></p>
   </div>
+
+  <!-- 유형 설명 -->
+  <div class="situation-card" id="situationCard"></div>
+
+  <!-- 영역별 점수 -->
   <div id="areaCards"></div>
+
+  <!-- 솔루션 -->
+  <div class="solution-card" id="solutionCard">
+    <div class="solution-title">💡 티토가 이렇게 도와드릴 수 있습니다</div>
+    <div id="solutionList"></div>
+  </div>
+
+  <!-- 지금 당장 할 수 있는 것 -->
+  <div class="tips-card">
+    <div class="tips-title">🔧 지금 당장 해볼 수 있는 것 3가지</div>
+    <div class="tip-item">
+      <div class="tip-item-header">
+        <div class="tip-num">1</div>
+        <div class="tip-item-title">구글 서치콘솔에 내 홈페이지 등록하기</div>
+      </div>
+      <div class="tip-item-desc">무료로 할 수 있어요. 구글이 내 홈페이지를 인식하는 첫 단계입니다.</div>
+      <span class="tip-request" onclick="goConsult('구글서치콘솔')">어렵다면 → 티토에게 요청하기</span>
+    </div>
+    <div class="tip-item">
+      <div class="tip-item-header">
+        <div class="tip-num">2</div>
+        <div class="tip-item-title">네이버 플레이스 업체 정보 최신화하기</div>
+      </div>
+      <div class="tip-item-desc">전화번호, 영업시간, 사진 업데이트만 해도 노출이 달라집니다.</div>
+      <span class="tip-request" onclick="goConsult('네이버플레이스')">어렵다면 → 티토에게 요청하기</span>
+    </div>
+    <div class="tip-item">
+      <div class="tip-item-header">
+        <div class="tip-num">3</div>
+        <div class="tip-item-title">카카오톡 채널 만들기</div>
+      </div>
+      <div class="tip-item-desc">무료로 만들 수 있고, 고객이 바로 문의할 수 있는 채널이 생겨요.</div>
+      <span class="tip-request" onclick="goConsult('카카오채널')">어렵다면 → 티토에게 요청하기</span>
+    </div>
+  </div>
+
+  <!-- 심층 분석 (A경로만) -->
+  <div class="deep-card" id="deepAnalysisSection" style="display:none;">
+    <div class="deep-title">🔍 티토 AI가 사장님 홈페이지를 직접 들여다봅니다</div>
+    <div class="deep-desc">URL을 입력하시면 CTA 배치·모바일 최적화·콘텐츠 구조를 마케팅 관점에서 분석해드립니다.</div>
+    <div class="deep-input-wrap">
+      <input type="url" id="deepUrl" class="deep-input" placeholder="https://yoursite.com" />
+      <button class="deep-btn" id="deepBtn" onclick="runDeepAnalysis()">분석하기</button>
+    </div>
+    <div class="deep-analyzing" id="deepAnalyzing">
+      <div class="deep-spinner"></div>
+      티토 AI가 홈페이지를 들여다보는 중...
+    </div>
+    <div class="deep-result" id="deepResult"></div>
+  </div>
+
+  <!-- CTA -->
   <div class="cta-section">
-    <h3>지금 바로 디지털 전환을 시작하세요</h3>
-    <p>티토 DX-5060 전문 컨설턴트가 맞춤 운영 구조를 함께 설계해 드립니다.</p>
-    <div class="cta-buttons">
-      <button class="btn-gold" onclick="goConsult()">📞 무료 상담 신청하기</button>
-      <button class="btn-outline-white" onclick="goEmail()">📧 이메일로 상세 진단서 받기</button>
-    </div>
+    <h3 id="ctaTitle">더 빠르게 바꾸고 싶다면<br>티토가 함께합니다</h3>
+    <p id="ctaDesc">3분 진단으로 방향을 잡았다면, 이제 실행이 남았습니다.</p>
+    <div class="cta-btns" id="ctaBtns"></div>
   </div>
-  <div class="section-card">
-    <div class="section-title">
-      <div class="section-icon">🎯</div>
-      <h2>나에게 맞는 솔루션</h2>
-    </div>
-    <div id="solutionList" style="margin-top:12px;"></div>
-  </div>
+
+  <div style="height:20px;"></div>
 </div>
 
-<!-- SCREEN 7: 상담 신청 완료 -->
-<div class="screen" id="screen7">
-  <div class="section-card" style="text-align:center; padding: 40px 24px;">
+<!-- SCREEN 6: 상담 신청 완료 -->
+<div class="screen" id="screen6">
+  <div class="card" style="text-align:center; padding:40px 20px;">
     <div class="success-icon">✅</div>
-    <h2 style="font-family:'Pretendard',-apple-system,sans-serif;font-weight:700; font-size:20px; margin-bottom:10px;">상담 신청이 완료되었습니다!</h2>
-    <p style="font-size:14px; color:var(--text-mid); line-height:1.7; margin-bottom:24px;">
-      <strong id="finalName"></strong>님, 감사합니다.<br>
-      영업일 기준 <strong>1~2일 내</strong>로 티토 전문가가 직접 연락드립니다.
+    <h2 style="font-size:20px;margin-bottom:10px;">상담 신청이 완료됐습니다!</h2>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:24px;">
+      <strong id="finalName"></strong> 사장님, 티토가 빠르게 연락드릴게요.<br>
+      평일 오전 9시~오후 9시 이내 연락드립니다.
     </p>
-    <div style="background:var(--teal-pale); border-radius:12px; padding:18px; text-align:left;">
-      <div style="font-size:13px; font-weight:700; color:var(--teal); margin-bottom:12px;">상담 전 이것만 준비해 두세요 💡</div>
-      <ul class="tip-list">
-        <li><span class="tip-icon">🔗</span>현재 운영 중인 홈페이지 또는 SNS 주소</li>
-        <li><span class="tip-icon">📝</span>사업 소개 자료 (간략한 소개 문장도 OK)</li>
-        <li><span class="tip-icon">💭</span>디지털 운영에서 가장 불편한 점 1가지</li>
-      </ul>
-    </div>
-    <button class="btn btn-primary" style="margin-top:24px; width:100%;" onclick="goScreen(6)">← 진단 결과 다시 보기</button>
+    <a href="https://teetto.kr" class="btn-orange" style="max-width:300px;margin:0 auto;display:block;">티토 홈페이지 둘러보기 →</a>
   </div>
 </div>
 
 </div><!-- /main -->
+</div><!-- /app -->
 
 <!-- LOADING -->
-<div class="loading-screen" id="loadingScreen">
+<div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
-  <p>AI가 진단 결과를 분석 중입니다...</p>
-  <small>잠시만 기다려 주세요 (약 3~5초)</small>
+  <p>분석 중입니다...</p>
+  <small>잠시만 기다려 주세요</small>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ===================== CONFIG =====================
-const N8N_WEBHOOK_URL = "https://teetto.app.n8n.cloud/webhook/teetto-diagnosis";
+const N8N_WEBHOOK_URL = 'https://your-n8n-webhook-url.com/webhook/teetto-dx';
+const CLAUDE_API_PROXY = 'https://api.anthropic.com/v1/messages';
 
-// ===================== STATE =====================
-let currentScreen = 0;
+let userBranch = null;
 let diagnosisResult = {};
 
-// ===================== NAVIGATION =====================
-function goScreen(n) {
-  document.getElementById('screen' + currentScreen).classList.remove('active');
-  document.getElementById('screen' + n).classList.add('active');
-  currentScreen = n;
-  updateProgress(n);
-  window.scrollTo(0, 0);
-}
-
-function updateProgress(n) {
-  const labels = ['진단 시작', '홈페이지 현황', '콘텐츠 & SEO', '브랜딩 현황', '운영 & AI', '연락처 입력'];
-  const stepLabel = document.getElementById('stepLabel');
-  const stepCount = document.getElementById('stepCount');
-  const progressFill = document.getElementById('progressFill');
-
-  const step = Math.min(n, 5);
-  if (stepLabel) stepLabel.textContent = labels[step] || '완료';
-  if (stepCount) stepCount.textContent = step + ' / 5';
-  if (progressFill) progressFill.style.width = (step / 5 * 100) + '%';
-
-  for (let i = 0; i < 5; i++) {
-    const dot = document.getElementById('dot' + i);
-    if (!dot) continue;
-    dot.classList.remove('active', 'done');
-    if (i + 1 === step) dot.classList.add('active');
-    else if (i + 1 < step) dot.classList.add('done');
-  }
-}
-
-// ===================== OPTIONS =====================
-document.addEventListener('click', function(e) {
-  const option = e.target.closest('.option');
-  if (!option) return;
-  const group = option.closest('.options');
-  if (!group) return;
-  group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-  option.classList.add('selected');
-});
-
-// ===================== TOAST =====================
+// ===== 유틸 =====
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ===================== SCORE CALCULATION =====================
-function getAnswers() {
-  const answers = {};
-  for (let i = 1; i <= 12; i++) {
-    const sel = document.querySelector(`.options[data-q="q${i}"] .option.selected`);
-    answers['q' + i] = sel ? parseInt(sel.dataset.val) : 0;
+function updateProgress(step, total) {
+  const labels = ['기본 정보', '홈페이지 현황', '진단 문항', '마무리', '결과 받기'];
+  document.getElementById('stepLabel').textContent = labels[step] || '완료';
+  document.getElementById('stepCount').textContent = step + ' / ' + total;
+  document.getElementById('progressFill').style.width = (step / total * 100) + '%';
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('dot' + i);
+    if (!dot) continue;
+    dot.className = 'step-dot' + (i < step ? ' done' : i === step ? ' active' : '');
   }
-  return answers;
 }
 
-function calculateResult() {
-  const answers = getAnswers();
+function goScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen' + id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+}
 
-  // 영역별 점수 (각 영역 3문항, 최대 9점 → 100점 환산)
-  const webRaw   = answers.q1 + answers.q2 + answers.q3;
-  const contRaw  = answers.q4 + answers.q5 + answers.q6;
-  const brandRaw = answers.q7 + answers.q8 + answers.q9;
-  const opsRaw   = answers.q10 + answers.q11 + answers.q12;
-  const totalRaw = webRaw + contRaw + brandRaw + opsRaw;
+function getVal(name) {
+  const sel = document.querySelector(`.option.selected input[name="${name}"]`);
+  return sel ? (sel.closest('.option').dataset.val) : null;
+}
 
-  const webScore   = Math.round(webRaw / 9 * 100);
-  const contScore  = Math.round(contRaw / 9 * 100);
-  const brandScore = Math.round(brandRaw / 9 * 100);
-  const opsScore   = Math.round(opsRaw / 9 * 100);
-  const totalScore = Math.round(totalRaw / 36 * 100);
+function getScore(name) {
+  const v = getVal(name);
+  return v !== null ? parseInt(v) || 0 : 0;
+}
 
-  // 레벨 판정
-  let levelText, levelColor, titleText, summaryText;
-  if (totalScore >= 75) {
-    levelText = '🚀 디지털 선도형';
-    levelColor = '#2e8b57';
-    titleText = '디지털 운영이 잘 갖춰져 있습니다';
-    summaryText = '기본 인프라는 충분합니다. 이제 성과를 극대화하는 고도화 전략이 필요한 시점입니다.';
-  } else if (totalScore >= 50) {
-    levelText = '📈 성장 가속형';
-    levelColor = '#d4740a';
-    titleText = '절반은 갖췄습니다, 지금이 도약할 때';
-    summaryText = '기본기는 있지만 체계가 부족합니다. 핵심 채널에 집중하면 빠르게 성과를 낼 수 있습니다.';
-  } else if (totalScore >= 25) {
-    levelText = '🌱 기반 구축형';
-    levelColor = '#c8953a';
-    titleText = '디지털 전환의 첫 걸음을 시작하세요';
-    summaryText = '아직 온라인 기반이 약합니다. 홈페이지와 콘텐츠부터 차근차근 구축하면 됩니다.';
+// ===== 옵션 클릭 =====
+document.addEventListener('click', e => {
+  const opt = e.target.closest('.option');
+  if (!opt) return;
+  const group = opt.closest('.options');
+  if (!group) return;
+  group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+});
+
+// ===== 분기 선택 =====
+function selectBranch(branch) {
+  userBranch = branch;
+  document.getElementById('branchA').classList.toggle('selected', branch === 'A');
+  document.getElementById('branchB').classList.toggle('selected', branch === 'B');
+}
+
+// ===== 다음 버튼 =====
+function goNext0() {
+  const name = document.getElementById('userName').value.trim();
+  const biz = document.getElementById('userBiz').value;
+  const age = document.getElementById('userAge').value;
+  const consent = document.getElementById('consent1').checked;
+  if (!name) { showToast('성함을 입력해 주세요'); return; }
+  if (!biz) { showToast('업종을 선택해 주세요'); return; }
+  if (!age) { showToast('창업 연차를 선택해 주세요'); return; }
+  if (!consent) { showToast('개인정보 수집에 동의해 주세요'); return; }
+  document.getElementById('confirmName').value = name;
+  goScreen(1);
+  updateProgress(1, 4);
+}
+
+function goNext1() {
+  if (!userBranch) { showToast('홈페이지 여부를 선택해 주세요'); return; }
+  if (userBranch === 'A') {
+    goScreen('2A');
+    document.getElementById('screen3Back').setAttribute('onclick', "goScreen('2A')");
   } else {
-    levelText = '🔰 디지털 입문형';
-    levelColor = '#e05050';
-    titleText = '지금 바로 디지털 전환을 시작하세요';
-    summaryText = '디지털 운영이 거의 없는 상태입니다. 전문가의 도움으로 빠르게 기반을 만들 수 있습니다.';
+    goScreen('2B');
+    document.getElementById('screen3Back').setAttribute('onclick', "goScreen('2B')");
   }
+  updateProgress(2, 4);
+}
 
-  diagnosisResult = { totalScore, webScore, contScore, brandScore, opsScore, levelText, titleText, summaryText, levelColor, answers };
+function goNext2A() {
+  const required = ['qa2','qa3','qa4','qa5','qa6','qa7'];
+  for (const q of required) {
+    if (!getVal(q)) { showToast('모든 항목을 선택해 주세요'); return; }
+  }
+  goScreen(3);
+  updateProgress(3, 4);
+}
 
-  // 점수 표시
+function goNext2B() {
+  const required = ['qb2','qb3','qb4','qb5','qb6','qb7'];
+  for (const q of required) {
+    if (!getVal(q)) { showToast('모든 항목을 선택해 주세요'); return; }
+  }
+  goScreen(3);
+  updateProgress(3, 4);
+}
+
+// ===== 점수 계산 =====
+function calcScores() {
+  if (userBranch === 'A') {
+    const web = getScore('qa2') + getScore('qa4') + getScore('qa5');
+    const cont = getScore('qa7') * 2 + getScore('qa6');
+    const brand = getScore('qa6') + getScore('qa3') + getScore('qc1');
+    const ops = getScore('qc2') * 2 + getScore('qa5');
+    const webS = Math.round(web / 9 * 100);
+    const contS = Math.round(cont / 9 * 100);
+    const brandS = Math.round(brand / 9 * 100);
+    const opsS = Math.round(ops / 9 * 100);
+    const total = Math.round((webS + contS + brandS + opsS) / 4);
+    return { total, webS, contS, brandS, opsS };
+  } else {
+    const web = 0;
+    const cont = getScore('qb5') * 2 + getScore('qb2');
+    const brand = getScore('qb3') * 2 + getScore('qb4');
+    const ops = getScore('qc2') * 2 + getScore('qc1');
+    const webS = 0;
+    const contS = Math.round(cont / 9 * 100);
+    const brandS = Math.round(brand / 9 * 100);
+    const opsS = Math.round(ops / 9 * 100);
+    const total = Math.round((contS + brandS + opsS) / 3);
+    return { total, webS, contS, brandS, opsS };
+  }
+}
+
+// ===== 유형 판별 =====
+function getType(scores) {
+  const { total, webS } = scores;
+  if (userBranch === 'A') {
+    const canEdit = getScore('qa3') === 3;
+    const hasInquiry = getScore('qa6') >= 2;
+    if (total >= 65) return { type: '운영 고도화형', color: '#2e8b57', bg: '#e6f4eb',
+      situation: '홈페이지를 잘 운영하고 있지만 더 성장할 여지가 있습니다. 데이터 기반 운영과 콘텐츠 전략을 강화하면 매출로 직결됩니다.',
+      recommend: 'care' };
+    if (canEdit && total >= 40) return { type: '셀프 성장형', color: '#d4740a', bg: '#fff3e0',
+      situation: '직접 수정은 가능하지만 검색 노출과 콘텐츠 구조가 부족합니다. 지금 구조를 잡으면 빠르게 달라질 수 있어요.',
+      recommend: 'self' };
+    if (!canEdit) return { type: '의존 탈출형', color: '#e05050', bg: '#fdecea',
+      situation: '홈페이지가 있지만 수정하려면 업체에 연락해야 하는 상태입니다. 이 홈페이지는 사실상 내 것이 아닙니다. 직접 운영할 수 있는 구조로 바꾸는 게 시급합니다.',
+      recommend: 'care' };
+    return { type: '방치 탈출형', color: '#e05050', bg: '#fdecea',
+      situation: '홈페이지가 있지만 오랫동안 방치된 상태입니다. 구글은 업데이트되지 않는 홈페이지를 신뢰하지 않아요. 지금 이 순간에도 검색 순위에서 밀려나고 있습니다.',
+      recommend: 'care' };
+  } else {
+    const wantSelf = getVal('qb7') === 'self';
+    return { type: '디지털 시작형', color: '#2c3e50', bg: '#e8ecf0',
+      situation: '현재 홈페이지 없이 SNS나 지인 소개에 의존하고 있습니다. 인터넷에 사장님 이름이 쌓이는 구조가 없어서 성장에 한계가 있어요. 지금이 시작할 최적의 타이밍입니다.',
+      recommend: wantSelf ? 'self' : 'care' };
+  }
+}
+
+// ===== 결과 화면 구성 =====
+function calculateResult() {
+  const scores = calcScores();
+  const typeInfo = getType(scores);
+  diagnosisResult = { ...scores, ...typeInfo };
+
+  // 점수 애니메이션
   const scoreDisplay = document.getElementById('scoreDisplay');
   const scoreCircle = document.getElementById('scoreCircle');
-  if (scoreDisplay) {
-    let count = 0;
-    const timer = setInterval(() => {
-      count += 2;
-      if (count >= totalScore) { count = totalScore; clearInterval(timer); }
-      scoreDisplay.textContent = count;
-    }, 40);
-  }
-  if (scoreCircle) {
-    setTimeout(() => {
-      scoreCircle.style.strokeDashoffset = 314 - (314 * totalScore / 100);
-    }, 100);
-  }
+  let count = 0;
+  const timer = setInterval(() => {
+    count += 2;
+    if (count >= scores.total) { count = scores.total; clearInterval(timer); }
+    scoreDisplay.textContent = count;
+  }, 40);
+  setTimeout(() => {
+    scoreCircle.style.strokeDashoffset = 314 - (314 * scores.total / 100);
+  }, 100);
 
-  // 레벨 뱃지
-  const levelEl = document.getElementById('resultLevel');
-  if (levelEl) {
-    levelEl.textContent = levelText;
-    levelEl.style.background = levelColor + '33';
-    levelEl.style.color = levelColor;
-  }
-  const titleEl = document.getElementById('resultTitle');
-  if (titleEl) titleEl.textContent = titleText;
-  const summaryEl = document.getElementById('resultSummary');
-  if (summaryEl) summaryEl.textContent = summaryText;
+  // 유형 뱃지
+  const typeEl = document.getElementById('resultType');
+  typeEl.textContent = typeInfo.type;
+  typeEl.style.background = typeInfo.color + '33';
+  typeEl.style.color = typeInfo.color;
+
+  // 타이틀
+  const titles = {
+    '운영 고도화형': '잘 하고 있습니다! 이제 더 높이 올라갈 차례예요',
+    '셀프 성장형': '기반은 있어요. 구조만 잡으면 달라집니다',
+    '의존 탈출형': '지금 이 홈페이지, 사실 내 것이 아닙니다',
+    '방치 탈출형': '홈페이지가 있지만 일을 안 하고 있어요',
+    '디지털 시작형': '지인 소개에만 의존하면 성장에 한계가 있어요'
+  };
+  document.getElementById('resultTitle').textContent = titles[typeInfo.type] || '';
+  document.getElementById('resultSummary').textContent = typeInfo.situation;
+
+  // 상황 카드
+  document.getElementById('situationCard').innerHTML = `
+    <div class="situation-title">📋 사장님 상황 요약</div>
+    <div class="situation-text">${typeInfo.situation}</div>
+  `;
 
   // 영역별 카드
-  const areas = [
-    { name: '🌐 홈페이지', score: webScore, feedback: getAreaFeedback('web', webScore) },
-    { name: '✍️ 콘텐츠 & SEO', score: contScore, feedback: getAreaFeedback('cont', contScore) },
-    { name: '🏷️ 디지털 브랜딩', score: brandScore, feedback: getAreaFeedback('brand', brandScore) },
-    { name: '⚙️ 운영 & AI', score: opsScore, feedback: getAreaFeedback('ops', opsScore) },
-  ];
-  const areaCards = document.getElementById('areaCards');
-  if (areaCards) {
-    areaCards.innerHTML = areas.map(a => {
-      const cls = a.score >= 67 ? 'high' : a.score >= 34 ? 'mid' : 'low';
-      return `<div class="result-area-card">
-        <div class="area-header">
-          <div class="area-name">${a.name}</div>
-          <div class="area-score-badge score-${cls}">${a.score}점</div>
-        </div>
-        <div class="area-bar-bg"><div class="area-bar-fill bar-${cls}" style="width:${a.score}%"></div></div>
-        <div class="area-feedback">${a.feedback}</div>
-      </div>`;
-    }).join('');
-  }
+  const areas = userBranch === 'A'
+    ? [
+        { name: '🌐 홈페이지', score: scores.webS },
+        { name: '✍️ 콘텐츠·SEO', score: scores.contS },
+        { name: '🏷️ 브랜딩', score: scores.brandS },
+        { name: '⚙️ 운영·AI', score: scores.opsS }
+      ]
+    : [
+        { name: '✍️ 콘텐츠·채널', score: scores.contS },
+        { name: '🏷️ 온라인 브랜딩', score: scores.brandS },
+        { name: '⚙️ 운영·AI', score: scores.opsS }
+      ];
+
+  const feedbacks = {
+    '🌐 홈페이지': { high:'홈페이지가 잘 운영되고 있습니다.', mid:'홈페이지가 있지만 개선이 필요합니다.', low:'홈페이지 구축이 가장 시급합니다.' },
+    '✍️ 콘텐츠·SEO': { high:'콘텐츠 운영이 체계적입니다.', mid:'콘텐츠가 있지만 일관성이 부족합니다.', low:'콘텐츠 활동이 거의 없습니다.' },
+    '🏷️ 브랜딩': { high:'온라인 전문성이 잘 드러납니다.', mid:'온라인 존재감이 약합니다.', low:'온라인 브랜딩이 없습니다.' },
+    '⚙️ 운영·AI': { high:'디지털 도구를 잘 활용하고 있습니다.', mid:'AI 도구 활용이 부족합니다.', low:'디지털 운영이 매우 낮습니다.' },
+    '✍️ 콘텐츠·채널': { high:'채널 운영이 활발합니다.', mid:'채널은 있지만 노출이 부족합니다.', low:'온라인 콘텐츠 활동이 없습니다.' },
+    '🏷️ 온라인 브랜딩': { high:'검색에서 잘 찾힙니다.', mid:'검색 노출이 약합니다.', low:'온라인에서 찾을 수 없는 상태입니다.' }
+  };
+
+  document.getElementById('areaCards').innerHTML = areas.map(a => {
+    const level = a.score >= 67 ? 'high' : a.score >= 34 ? 'mid' : 'low';
+    const fb = feedbacks[a.name] ? feedbacks[a.name][level] : '';
+    return `<div class="area-card">
+      <div class="area-header">
+        <div class="area-name">${a.name}</div>
+        <div class="area-badge ${level}">${a.score}점</div>
+      </div>
+      <div class="area-bar-bg"><div class="area-bar bar-${level}" style="width:${a.score}%"></div></div>
+      <div class="area-feedback">${fb}</div>
+    </div>`;
+  }).join('');
 
   // 솔루션
-  const solutionList = document.getElementById('solutionList');
-  if (solutionList) {
-    const solutions = getSolutions(totalScore, webScore, contScore, brandScore, opsScore);
-    solutionList.innerHTML = solutions.map(s =>
-      `<div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f0ebe4;">
-        <div style="font-size:20px;flex-shrink:0">${s.icon}</div>
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:3px">${s.title}</div>
-          <div style="font-size:12px;color:var(--text-light);line-height:1.6">${s.desc}</div>
-        </div>
-      </div>`
-    ).join('');
+  const solutions = [];
+  if (typeInfo.recommend === 'care' || typeInfo.recommend === 'both') {
+    solutions.push({ icon:'🏠', title:'케어형 홈페이지 제작', desc:'티토가 직접 만들고 운영까지 함께합니다. 10페이지 이내, 약 1주 완성.', link:'https://teetto.kr/homepage/care/', linkText:'케어형 자세히 보기 →' });
   }
+  if (typeInfo.recommend === 'self' || typeInfo.recommend === 'both') {
+    solutions.push({ icon:'✏️', title:'셀프형 홈페이지 제작', desc:'AI가 초안을 만들고 사장님이 직접 운영합니다. 33만원으로 시작.', link:'https://teetto.kr/homepage/self/', linkText:'셀프형 자세히 보기 →' });
+  }
+  solutions.push({ icon:'📅', title:'티토케어 구독', desc:'매달 블로그 포스팅·KPI 리포트·성장 미팅으로 인터넷에 쌓이게 합니다.', link:'https://teetto.kr/teetto-care/', linkText:'티토케어 자세히 보기 →' });
+
+  document.getElementById('solutionList').innerHTML = solutions.map(s => `
+    <div class="solution-item">
+      <div class="solution-icon">${s.icon}</div>
+      <div>
+        <div class="solution-item-title">${s.title}</div>
+        <div class="solution-item-desc">${s.desc}</div>
+        <a href="${s.link}" class="solution-link" target="_blank">${s.linkText}</a>
+      </div>
+    </div>
+  `).join('');
+
+  // 심층 분석 (A경로만)
+  if (userBranch === 'A') {
+    document.getElementById('deepAnalysisSection').style.display = 'block';
+  }
+
+  // CTA
+  const ctaTitle = typeInfo.recommend === 'self'
+    ? '셀프형으로 직접 시작해보세요'
+    : '티토가 함께 바꿔드릴게요';
+  const ctaDesc = '3분 진단으로 방향을 잡았다면, 이제 실행이 남았습니다.';
+  document.getElementById('ctaTitle').textContent = ctaTitle;
+  document.getElementById('ctaDesc').textContent = ctaDesc;
+
+  const primaryLink = typeInfo.recommend === 'self'
+    ? 'https://teetto.kr/homepage/self/'
+    : 'https://teetto.kr/homepage/care/';
+  const primaryText = typeInfo.recommend === 'self'
+    ? '셀프형 홈페이지 시작하기 →'
+    : '케어형 홈페이지 알아보기 →';
+
+  document.getElementById('ctaBtns').innerHTML = `
+    <a href="${primaryLink}" class="btn-orange" target="_blank">${primaryText}</a>
+    <button class="btn-white-outline" onclick="goConsult('CTA')">상담 신청하기</button>
+    <button class="btn-white-outline" onclick="goEmail()">📧 이메일로 상세 결과 받기</button>
+  `;
 }
 
-function getAreaFeedback(area, score) {
-  const map = {
-    web: {
-      high: '홈페이지가 잘 운영되고 있습니다. 전환율 최적화를 고려해 보세요.',
-      mid: '홈페이지가 있지만 개선이 필요합니다. 최신 정보 업데이트가 우선입니다.',
-      low: '온라인 거점이 없거나 매우 약합니다. 홈페이지 구축이 가장 시급합니다.'
-    },
-    cont: {
-      high: '콘텐츠 운영이 체계적입니다. SEO 최적화로 더 많은 유입을 만드세요.',
-      mid: '콘텐츠가 있지만 일관성이 부족합니다. 주 1회 발행 루틴을 만드세요.',
-      low: '콘텐츠 활동이 거의 없습니다. AI 도구를 활용해 글쓰기 부담을 줄이세요.'
-    },
-    brand: {
-      high: '온라인 전문성이 잘 드러납니다. 고객 후기와 사례를 더 활용하세요.',
-      mid: '온라인에서 존재감이 약합니다. 전문성을 보여주는 콘텐츠가 필요합니다.',
-      low: '온라인 브랜딩이 없습니다. 첫 번째 전문가 프로필 페이지를 만드세요.'
-    },
-    ops: {
-      high: '디지털 도구를 잘 활용하고 있습니다. 자동화로 효율을 더 높이세요.',
-      mid: 'AI 도구는 알지만 충분히 활용하지 못하고 있습니다. 실습이 필요합니다.',
-      low: '디지털 운영 도구 활용이 매우 낮습니다. 기초 AI 활용 교육을 권장합니다.'
-    }
-  };
-  const level = score >= 67 ? 'high' : score >= 34 ? 'mid' : 'low';
-  return map[area][level];
+// ===== 심층 분석 (n8n 전송 → 이메일 발송) =====
+async function runDeepAnalysis() {
+  const url = document.getElementById('deepUrl').value.trim();
+  if (!url || !url.startsWith('http')) { showToast('올바른 URL을 입력해 주세요 (https://...)'); return; }
+
+  const btn = document.getElementById('deepBtn');
+  const analyzing = document.getElementById('deepAnalyzing');
+  const result = document.getElementById('deepResult');
+
+  btn.disabled = true;
+  analyzing.classList.add('show');
+  result.classList.remove('show');
+
+  try {
+    // n8n으로 URL 전송 → PageSpeed + Claude 분석 → 이메일 발송
+    fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: '심층분석요청',
+        name: document.getElementById('userName').value.trim(),
+        email: document.getElementById('userEmail').value.trim(),
+        brand: document.getElementById('userBrand').value.trim(),
+        biz: document.getElementById('userBiz').value,
+        url,
+        totalScore: diagnosisResult.total || 0,
+        typeText: diagnosisResult.type || '',
+        timestamp: new Date().toLocaleString('ko-KR')
+      }),
+      mode: 'no-cors'
+    }).catch(() => {});
+
+    result.innerHTML = `
+      <div style="text-align:center;padding:24px 10px;">
+        <div style="font-size:36px;margin-bottom:14px;">🔍</div>
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;">티토 AI가 분석 중입니다</div>
+        <div style="font-size:13px;color:var(--text-mid);line-height:1.75;margin-bottom:18px;">
+          CTA 배치 · 모바일 최적화 · 콘텐츠 구조 · 신뢰 요소를<br>
+          마케팅 관점에서 직접 들여다보고 있어요.<br>
+          <strong style="color:var(--orange);">5분 내로 이메일로 보내드립니다.</strong>
+        </div>
+        <div style="background:var(--bg);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--text-light);line-height:1.7;">
+          ✉️ 발송 주소<br>
+          <strong style="color:var(--text-dark);font-size:13px;">${document.getElementById('userEmail').value.trim()}</strong>
+        </div>
+      </div>
+    `;
+    result.classList.add('show');
+
+  } catch(e) {
+    result.innerHTML = `
+      <div class="deep-result-item">
+        <div class="deep-result-icon">⚠️</div>
+        <div class="deep-result-text">
+          <strong>잠시 후 다시 시도해 주세요</strong>
+          문제가 계속되면 티토에게 직접 문의해 주세요.
+        </div>
+      </div>
+    `;
+    result.classList.add('show');
+  }
+
+  btn.disabled = false;
+  analyzing.classList.remove('show');
 }
 
-function getSolutions(total, web, cont, brand, ops) {
-  const list = [];
-  if (web < 50) list.push({ icon: '🌐', title: '홈페이지 구축 & 리뉴얼', desc: '검색에 잘 걸리고 문의가 들어오는 홈페이지를 빠르게 구축합니다.' });
-  if (cont < 50) list.push({ icon: '✍️', title: 'AI 콘텐츠 자동화', desc: 'ChatGPT와 블로그 자동화로 글쓰기 시간을 80% 줄입니다.' });
-  if (brand < 50) list.push({ icon: '🏷️', title: '퍼스널 브랜딩 구축', desc: '검색하면 나오는 전문가 이미지를 6주 안에 만듭니다.' });
-  if (ops < 50) list.push({ icon: '⚙️', title: 'AI 업무 자동화 교육', desc: 'ChatGPT, 클로드 등 AI 도구를 실제 업무에 바로 적용합니다.' });
-  if (list.length === 0) list.push({ icon: '🚀', title: '디지털 고도화 컨설팅', desc: '이미 갖춰진 기반 위에 성과를 극대화하는 전략을 설계합니다.' });
-  return list;
-}
-
-// ===================== SUBMIT (n8n 연동) =====================
+// ===== 제출 =====
 async function submitDiagnosis() {
-  const phone = document.getElementById('userPhone').value.trim();
   const email = document.getElementById('userEmail').value.trim();
   if (!email || !email.includes('@')) { showToast('올바른 이메일을 입력해 주세요'); return; }
 
   const submitBtn = document.getElementById('submitBtn');
-  if (submitBtn) submitBtn.disabled = true;
-  document.getElementById('loadingScreen').classList.add('show');
+  submitBtn.disabled = true;
+  document.getElementById('loadingOverlay').classList.add('show');
 
-  // 점수 계산
-  const answers = getAnswers();
-  const webRaw   = answers.q1 + answers.q2 + answers.q3;
-  const contRaw  = answers.q4 + answers.q5 + answers.q6;
-  const brandRaw = answers.q7 + answers.q8 + answers.q9;
-  const opsRaw   = answers.q10 + answers.q11 + answers.q12;
-  const totalRaw = webRaw + contRaw + brandRaw + opsRaw;
+  const scores = calcScores();
+  const typeInfo = getType(scores);
 
-  const totalScore = Math.round(totalRaw / 36 * 100);
-  const webScore   = Math.round(webRaw / 9 * 100);
-  const contScore  = Math.round(contRaw / 9 * 100);
-  const brandScore = Math.round(brandRaw / 9 * 100);
-  const opsScore   = Math.round(opsRaw / 9 * 100);
-
-  let levelText = totalScore >= 75 ? '디지털 선도형' : totalScore >= 50 ? '성장 가속형' : totalScore >= 25 ? '기반 구축형' : '디지털 입문형';
-
-  // n8n Google Sheets 컬럼에 맞춘 payload
-  // 컬럼: timestamp name phone email biz bizAge callTime action totalScore webScore contentScore brandScore opsScore levelText pain
   const payload = {
-    timestamp:    new Date().toLocaleString('ko-KR'),
-    name:         document.getElementById('userName').value.trim(),
-    brand:        document.getElementById('userBrand').value.trim(),
-    phone:        phone,
-    email:        email,
-    biz:          document.getElementById('userBiz').value,
-    bizAge:       document.getElementById('userAge').value,
-    naver:        document.getElementById('userNaver').value || '미선택',
-    google:       document.getElementById('userGoogle').value || '미선택',
-    
-    action:       '진단완료',
-    totalScore:   totalScore,
-    webScore:     webScore,
-    contentScore: contScore,
-    brandScore:   brandScore,
-    opsScore:     opsScore,
-    levelText:    levelText,
-    pain:         document.getElementById('userPain').value.trim()
+    timestamp: new Date().toLocaleString('ko-KR'),
+    name: document.getElementById('userName').value.trim(),
+    brand: document.getElementById('userBrand').value.trim(),
+    phone: document.getElementById('userPhone').value.trim(),
+    email,
+    biz: document.getElementById('userBiz').value,
+    bizAge: document.getElementById('userAge').value,
+    branch: userBranch === 'A' ? '홈페이지있음' : '홈페이지없음',
+    action: '진단완료',
+    totalScore: scores.total,
+    webScore: scores.webS,
+    contentScore: scores.contS,
+    brandScore: scores.brandS,
+    opsScore: scores.opsS,
+    typeText: typeInfo.type,
+    recommend: typeInfo.recommend,
+    pain: document.getElementById('userPain').value.trim()
   };
 
-  // n8n 웹훅 전송
   try {
     await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-      mode: 'no-cors'  // CORS 우회 (깃허브 페이지 → n8n 클라우드)
+      mode: 'no-cors'
     });
-    console.log('✅ n8n 전송 완료');
-  } catch (e) {
-    console.warn('⚠️ n8n 전송 오류 (결과는 계속 표시):', e);
-  }
+  } catch(e) {}
 
-  // 로딩 → 결과 화면
   setTimeout(() => {
-    document.getElementById('loadingScreen').classList.remove('show');
-    if (submitBtn) submitBtn.disabled = false;
+    document.getElementById('loadingOverlay').classList.remove('show');
+    submitBtn.disabled = false;
     calculateResult();
-    goScreen(6);
-    updateProgress(6);
-  }, 2800);
+    goScreen(5);
+    updateProgress(4, 4);
+  }, 2500);
 }
 
-// ===================== CTA 버튼 =====================
-function goConsult() {
-  // 상담 신청 → n8n에 action: '상담신청' 으로 재전송
+// ===== 상담 신청 =====
+function goConsult(source) {
   const name = document.getElementById('userName').value.trim();
-  const phone = document.getElementById('userPhone').value.trim();
-  const email = document.getElementById('userEmail').value.trim();
-
-  const payload = {
-    timestamp: new Date().toLocaleString('ko-KR'),
-    name:      name,
-    brand:     document.getElementById('userBrand').value.trim(),
-    phone:     phone,
-    email:     email,
-    biz:       document.getElementById('userBiz').value,
-    bizAge:    document.getElementById('userAge').value,
-    naver:     document.getElementById('userNaver').value || '미선택',
-    google:    document.getElementById('userGoogle').value || '미선택',
-    
-    action:    '상담신청',           // ← n8n에서 이메일 요청 여부 분기에 사용
-    totalScore: diagnosisResult.totalScore || 0,
-    webScore:   diagnosisResult.webScore || 0,
-    contentScore: diagnosisResult.contScore || 0,
-    brandScore: diagnosisResult.brandScore || 0,
-    opsScore:   diagnosisResult.opsScore || 0,
-    levelText:  diagnosisResult.levelText || '',
-    pain:       document.getElementById('userPain').value.trim()
-  };
-
   fetch(N8N_WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({
+      action: '상담신청',
+      source,
+      name,
+      email: document.getElementById('userEmail').value.trim(),
+      phone: document.getElementById('userPhone').value.trim(),
+      totalScore: diagnosisResult.total || 0,
+      typeText: diagnosisResult.type || '',
+      timestamp: new Date().toLocaleString('ko-KR')
+    }),
     mode: 'no-cors'
-  }).catch(e => console.warn('상담신청 전송 오류:', e));
+  }).catch(() => {});
 
-  document.getElementById('finalName').textContent = name;
-  goScreen(7);
+  document.getElementById('finalName').textContent = name || '사장님';
+  goScreen(6);
 }
 
+// ===== 이메일 요청 =====
 function goEmail() {
-  // 이메일 진단서 요청 → n8n에 action: '이메일요청' 으로 전송
-  const name = document.getElementById('userName').value.trim();
-  const phone = document.getElementById('userPhone').value.trim();
-  const email = document.getElementById('userEmail').value.trim();
-
-  const payload = {
-    timestamp: new Date().toLocaleString('ko-KR'),
-    name:      name,
-    brand:     document.getElementById('userBrand').value.trim(),
-    phone:     phone,
-    email:     email,
-    biz:       document.getElementById('userBiz').value,
-    bizAge:    document.getElementById('userAge').value,
-    naver:     document.getElementById('userNaver').value || '미선택',
-    google:    document.getElementById('userGoogle').value || '미선택',
-    
-    action:    '이메일요청',          // ← n8n 분기: true → 이메일 발송
-    totalScore: diagnosisResult.totalScore || 0,
-    webScore:   diagnosisResult.webScore || 0,
-    contentScore: diagnosisResult.contScore || 0,
-    brandScore: diagnosisResult.brandScore || 0,
-    opsScore:   diagnosisResult.opsScore || 0,
-    levelText:  diagnosisResult.levelText || '',
-    pain:       document.getElementById('userPain').value.trim()
-  };
-
   fetch(N8N_WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({
+      action: '이메일요청',
+      name: document.getElementById('userName').value.trim(),
+      email: document.getElementById('userEmail').value.trim(),
+      totalScore: diagnosisResult.total || 0,
+      typeText: diagnosisResult.type || '',
+      recommend: diagnosisResult.recommend || '',
+      timestamp: new Date().toLocaleString('ko-KR')
+    }),
     mode: 'no-cors'
-  }).catch(e => console.warn('이메일요청 전송 오류:', e));
-
-  showToast('📧 이메일로 상세 진단서를 발송했습니다!');
+  }).catch(() => {});
+  showToast('📧 이메일로 상세 진단 결과를 발송했습니다!');
 }
 </script>
-</div><!-- /app-wrapper -->
+</div>
 </body>
 </html>
