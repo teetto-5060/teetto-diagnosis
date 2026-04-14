@@ -1591,6 +1591,55 @@ async function submitDiagnosis() {
   const scores = calcScores();
   const typeInfo = getType(scores);
 
+  // 실제 답변값 수집
+  const answerLabels = {
+    qa2: ['1개월 이내','6개월 이내','1년 이상됐어요','거의 수정 안 해요'],
+    qa3: ['혼자 수정할 수 있어요','업체에 연락해야 해요','어떻게 하는지 몰라요'],
+    qa4: ['둘 다 잘 나와요','네이버만 나와요','가끔 나와요','검색해본 적 없어요'],
+    qa5: ['알고 있고 매달 확인해요','가끔 확인해요','확인하는 방법을 모르겠어요','전혀 몰라요'],
+    qa6: ['자주 와요','가끔 와요','거의 없어요','전혀 없어요'],
+    qa7: ['주 1회 이상 운영','월 1~2회','가끔 올려요','운영 안 해요'],
+    qb2: ['업체 정보가 잘 나와요','가끔 나와요','거의 안 나와요','검색해본 적 없어요'],
+    qb3: ['구글·네이버 검색으로 찾아와요','SNS에서 봤다고 해요','카카오톡·문자로 소개받아요','대부분 지인 소개예요'],
+    qb4: ['검색했고 잘 나와요','검색했는데 안 나와요','검색해본 적 없어요'],
+    qb5: ['SNS 2개 이상 운영','카카오채널 정도만','SNS 하나만','온라인 홍보 안 해요'],
+    qb6: ['비용이 부담돼요','어떻게 만드는지 몰라요','필요성 못 느꼈어요','지금 알아보는 중이에요'],
+    qb7: ['직접 관리하고 싶어요','전문가에게 맡기고 싶어요','아직 모르겠어요'],
+    qc1: ['모두 연결돼 있어요','일부만 연결','각각 따로 운영','채널이 하나뿐'],
+    qc2: ['적극 활용 중이에요','가끔 글쓰기에 써요','어떻게 활용할지 모르겠어요','써본 적 없어요']
+  };
+
+  function getLabel(q) {
+    const el = document.querySelector(`.option.selected input[name="${q}"]`);
+    if (!el) return '미응답';
+    const val = parseInt(el.closest('.option').dataset.val) || 0;
+    const labels = answerLabels[q];
+    if (!labels) return el.closest('.option').querySelector('.option-text')?.textContent || '미응답';
+    return labels[Math.min(val, labels.length-1)] || labels[labels.length-1];
+  }
+
+  const answers = userBranch === 'A' ? {
+    '마지막 수정': getLabel('qa2'),
+    '직접 수정 가능 여부': getLabel('qa3'),
+    '검색 노출': getLabel('qa4'),
+    '방문자 수 파악': getLabel('qa5'),
+    '홈페이지 문의': getLabel('qa6'),
+    'SNS 운영': getLabel('qa7'),
+    '채널 연결': getLabel('qc1'),
+    'AI 활용': getLabel('qc2')
+  } : {
+    '네이버 검색 노출': getLabel('qb2'),
+    '고객 유입 경로': getLabel('qb3'),
+    '구글 검색 경험': getLabel('qb4'),
+    '홍보 채널': getLabel('qb5'),
+    '홈페이지 없는 이유': getLabel('qb6'),
+    '운영 방식 선호': getLabel('qb7'),
+    '채널 연결': getLabel('qc1'),
+    'AI 활용': getLabel('qc2')
+  };
+
+  const answersText = Object.entries(answers).map(([k,v]) => `${k}: ${v}`).join('\n');
+
   const payload = {
     timestamp: new Date().toLocaleString('ko-KR'),
     name: document.getElementById('userName').value.trim(),
@@ -1608,6 +1657,8 @@ async function submitDiagnosis() {
     opsScore: scores.opsS,
     typeText: typeInfo.type,
     recommend: typeInfo.recommend,
+    situation: typeInfo.situation,
+    answersText,
     pain: document.getElementById('userPain').value.trim()
   };
 
