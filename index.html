@@ -1665,12 +1665,19 @@ async function submitDiagnosis() {
   };
 
   try {
-    await fetch(N8N_WEBHOOK_URL, {
+    const res = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      mode: 'no-cors'
+      body: JSON.stringify(payload)
     });
+    const data = await res.json();
+
+    if (data.duplicate === true) {
+      document.getElementById('loadingOverlay').classList.remove('show');
+      submitBtn.disabled = false;
+      showToast('이미 진단을 완료하셨습니다. 이메일을 확인해 주세요 📧');
+      return;
+    }
   } catch(e) {}
 
   setTimeout(() => {
