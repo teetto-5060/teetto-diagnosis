@@ -1530,7 +1530,8 @@ async function runDeepAnalysis() {
 
   try {
     // n8n으로 URL 전송 → PageSpeed + Claude 분석 → 이메일 발송
-    fetch(N8N_WEBHOOK_URL, {
+    
+const response = await fetch(N8N_WEBHOOK_URL, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
@@ -1545,8 +1546,8 @@ async function runDeepAnalysis() {
     typeText: diagnosisResult.type || '',
     timestamp: new Date().toLocaleString('ko-KR')
   })
-}).catch(() => {});
-
+});
+console.log('심층분석 전송 완료:', response.status);
     result.innerHTML = `
       <div style="text-align:center;padding:24px 10px;">
         <div style="font-size:36px;margin-bottom:14px;">🔍</div>
