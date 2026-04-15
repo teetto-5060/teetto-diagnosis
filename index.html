@@ -1531,21 +1531,21 @@ async function runDeepAnalysis() {
   try {
     // n8n으로 URL 전송 → PageSpeed + Claude 분석 → 이메일 발송
     fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: '심층분석요청',
-        name: document.getElementById('userName').value.trim(),
-        email: document.getElementById('userEmail').value.trim(),
-        brand: document.getElementById('userBrand').value.trim(),
-        biz: document.getElementById('userBiz').value,
-        url,
-        totalScore: diagnosisResult.total || 0,
-        typeText: diagnosisResult.type || '',
-        timestamp: new Date().toLocaleString('ko-KR')
-      }),
-      mode: 'no-cors'
-    }).catch(() => {});
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    action: '심층분석요청',
+    name: document.getElementById('userName').value.trim(),
+    email: document.getElementById('userEmail').value.trim(),
+    brand: document.getElementById('userBrand').value.trim(),
+    biz: document.getElementById('userBiz').value,
+    bizAge: document.getElementById('userAge').value,
+    url,
+    totalScore: diagnosisResult.total || 0,
+    typeText: diagnosisResult.type || '',
+    timestamp: new Date().toLocaleString('ko-KR')
+  })
+}).catch(() => {});
 
     result.innerHTML = `
       <div style="text-align:center;padding:24px 10px;">
